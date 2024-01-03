@@ -35,7 +35,7 @@ public:
 	float3& getUp();
 	float getFov();
 	void UVWFrame(float3& U, float3& V, float3& W);
-	void update();
+	bool update();
 	mat4& getProjectionMatrix();
 	mat4& getViewMatrix();
 };

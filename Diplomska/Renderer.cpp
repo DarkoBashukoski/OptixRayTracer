@@ -74,7 +74,7 @@ void Renderer::render(CudaOutputBuffer<uchar4>& buffer) {
 	uchar4* data = buffer.getHostPointer();
 
 	glBindTexture(GL_TEXTURE_2D, textureId);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1920, 1080, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, DisplayManager::getInstance()->getWidth(), DisplayManager::getInstance()->getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glActiveTexture(GL_TEXTURE0);

@@ -1,5 +1,7 @@
 #include "DisplayManager.h"
 
+DisplayManager* DisplayManager::instance = nullptr;
+
 DisplayManager::DisplayManager() {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -16,6 +18,14 @@ DisplayManager::DisplayManager() {
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
+}
+
+DisplayManager* DisplayManager::getInstance() {
+	if (instance != nullptr) {
+		return instance;
+	}
+	instance = new DisplayManager();
+	return instance;
 }
 
 void DisplayManager::updateDisplay() {

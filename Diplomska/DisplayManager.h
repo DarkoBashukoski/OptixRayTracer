@@ -13,12 +13,15 @@
 
 class DisplayManager {
 private:
+	static DisplayManager* instance;
+	DisplayManager();
 	const int WIDTH = 1920;
 	const int HEIGHT = 1080;
 	const char* TITLE = "Raytracing App";
 	GLFWwindow* window;
 public:
-	DisplayManager();
+	DisplayManager(const DisplayManager& obj) = delete;
+	static DisplayManager* getInstance();
 	void updateDisplay();
 	void closeDisplay();
 	bool isCloseRequested();

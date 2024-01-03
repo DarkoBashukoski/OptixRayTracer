@@ -4,7 +4,21 @@
 
 #include <cuda_runtime.h>
 
-#define PI 3.14159265358979323846
+using namespace std;
+
+constexpr auto PI = 3.14159265358979323846;
+
+__forceinline__ __device__ __host__ float uintAsFloat(unsigned int x) {
+    union { float f; unsigned int i; } var;
+    var.i = x;
+    return var.f;
+}
+
+__forceinline__ __device__ __host__ float floatAsUint(float x) {
+    union { float f; unsigned int i; } var;
+    var.f = x;
+    return var.i;
+}
 
 __forceinline__ __device__ __host__ double2 operator-(const double2& a, const double2& b) {
     return make_double2(a.x - b.x, a.y - b.y);
@@ -34,6 +48,10 @@ __forceinline__ __device__ __host__ float3 operator+(const float3& a, const floa
 	return make_float3(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
+__forceinline__ __device__ __host__ float3 operator+(const float3& a, float b) {
+    return make_float3(a.x + b, a.y + b, a.z + b);
+}
+
 __forceinline__ __device__ __host__ float3 operator-(const float3& s) {
 	return make_float3(-s.x, -s.y, -s.z);
 }
@@ -48,6 +66,10 @@ __forceinline__ __device__ __host__ float3 operator-(const float3& a, const floa
 
 __forceinline__ __device__ __host__ float3 operator*(const float3& a, float b) {
 	return make_float3(a.x * b, a.y * b, a.z * b);
+}
+
+__forceinline__ __device__ __host__ float3 operator*(const float3& a, float3& b) {
+    return make_float3(a.x * b.x, a.y * b.y, a.z * b.z);
 }
 
 __forceinline__ __device__ __host__ float4 operator*(const float4& a, float b) {
@@ -74,6 +96,12 @@ __forceinline__ __device__ __host__ void operator*=(float3& a, const float s) {
 	a.x *= s;
 	a.y *= s;
 	a.z *= s;
+}
+
+__forceinline__ __device__ __host__ void operator*=(float3& a, float3& b) {
+    a.x *= b.x;
+    a.y *= b.y;
+    a.z *= b.z;
 }
 
 __forceinline__ __device__ __host__ void operator*=(float4& a, const float s) {
@@ -119,6 +147,52 @@ __forceinline__ __device__ __host__ float4 normalize(const float4& s) {
 
 __forceinline__ __device__ __host__ float length(const float3& s) {
 	return sqrtf(dot(s, s));
+}
+
+__forceinline__ __device__ __host__ float maximum(float a, float b) {
+    return a > b ? a : b;
+}
+
+__forceinline__ __device__ __host__ float minimum(float a, float b) {
+    return a < b ? a : b;
+}
+
+__forceinline__ __device__ __host__ unsigned char maximum(unsigned char a, unsigned char b) {
+    return a > b ? a : b;
+}
+
+__forceinline__ __device__ __host__ unsigned char minimum(unsigned char a, unsigned char b) {
+    return a < b ? a : b;
+}
+
+__forceinline__ __device__ __host__ float clamp(float s, float minVal, float maxVal) {
+    return minimum(maximum(s, minVal), maxVal);
+}
+
+__forceinline__ __device__ __host__ float3 clamp(const float3& s, float minVal, float maxVal) {
+    return make_float3(
+        minimum(maximum(s.x, minVal), maxVal),
+        minimum(maximum(s.y, minVal), maxVal),
+        minimum(maximum(s.z, minVal), maxVal)
+    );
+}
+
+__forceinline__ __device__ __host__ uchar4 clamp(const uchar4& s, unsigned char minVal, unsigned char maxVal) {
+    return make_uchar4(
+        minimum(maximum(s.x, minVal), maxVal),
+        minimum(maximum(s.y, minVal), maxVal),
+        minimum(maximum(s.z, minVal), maxVal),
+        minimum(maximum(s.w, minVal), maxVal)
+    );
+}
+
+__forceinline__ __device__ __host__ float smoothstep(float leftEgde, float rightEdge, float input) {
+    input = clamp((input - leftEgde) / (rightEdge - leftEgde), 0.0f, 1.0f);
+    return input * input * (3.0f - 2.0f * input);
+}
+
+__forceinline__ __device__ __host__ float3 lerp(const float3& vec1, const float3& vec2, float t) {
+    return vec1 + t * (vec2 - vec1);
 }
 
 struct mat4 {
@@ -208,17 +282,17 @@ struct mat4 {
     __host__ __device__ __forceinline__ static mat4 createRotationX(float radians) {
         mat4 ret;
         ret.m11 = 1; ret.m12 = 0; ret.m13 = 0; ret.m14 = 0;
-        ret.m21 = 0; ret.m22 = cos(radians); ret.m23 = sin(radians); ret.m24 = 0;
-        ret.m31 = 0; ret.m32 = -sin(radians); ret.m33 = cos(radians); ret.m34 = 0;
+        ret.m21 = 0; ret.m22 = cos(radians); ret.m23 = -sin(radians); ret.m24 = 0;
+        ret.m31 = 0; ret.m32 = sin(radians); ret.m33 = cos(radians); ret.m34 = 0;
         ret.m41 = 0; ret.m42 = 0; ret.m43 = 0; ret.m44 = 1;
         return ret;
     }
 
     __host__ __device__ __forceinline__ static mat4 createRotationY(float radians) {
         mat4 ret;
-        ret.m11 = cos(radians); ret.m12 = 0; ret.m13 = -sin(radians); ret.m14 = 0;
+        ret.m11 = cos(radians); ret.m12 = 0; ret.m13 = sin(radians); ret.m14 = 0;
         ret.m21 = 0; ret.m22 = 1; ret.m23 = 0; ret.m24 = 0;
-        ret.m31 = sin(radians); ret.m32 = 0; ret.m33 = cos(radians); ret.m34 = 0;
+        ret.m31 = -sin(radians); ret.m32 = 0; ret.m33 = cos(radians); ret.m34 = 0;
         ret.m41 = 0; ret.m42 = 0; ret.m43 = 0; ret.m44 = 1;
         return ret;
     }
@@ -274,6 +348,27 @@ struct mat4 {
 
         return ret;
     }
+
+    __host__ __device__ __forceinline__ mat4 scale(float3 f) const {
+        mat4 ret;
+
+        ret.m11 = m11 * f.x;
+        ret.m12 = m12 * f.x;
+        ret.m13 = m13 * f.x;
+        ret.m14 = m14 * f.x;
+
+        ret.m21 = m21 * f.y;
+        ret.m22 = m22 * f.y;
+        ret.m23 = m23 * f.y;
+        ret.m24 = m24 * f.y;
+
+        ret.m31 = m31 * f.z;
+        ret.m32 = m32 * f.z;
+        ret.m33 = m33 * f.z;
+        ret.m34 = m34 * f.z;
+
+        return ret;
+    }
     
     __host__ __device__ __forceinline__ void zero() {
         m11 = 0; m12 = 0; m13 = 0; m14 = 0;
@@ -296,17 +391,24 @@ struct mat4 {
     __host__ __device__ __forceinline__ mat4& operator*=(const mat4& m) { return *this = *this * m; }
 };
 
-__host__ __device__ __forceinline__ float randomFloat(unsigned int* state, unsigned int offset) {
-    *state = (*state * 747796405 + 2891336453) * offset;
+__host__ __device__ __forceinline__ float randomFloat(unsigned int* state) {
+    *state = *state * 747796405 + 2891336453;
     unsigned int result = ((*state >> ((*state >> 28) + 4)) ^ *state) * 277803737;
     result = (result >> 22) ^ result;
     return result / 4294967295.0f;
 }
 
-__host__ __device__ __forceinline__ float randomFloatNormalDistribution(unsigned int* state, unsigned int offset) {
-    float theta = 2 * PI * randomFloat(state, offset);
-    float rho = sqrt(-2 * log(randomFloat(state, offset)));
+__host__ __device__ __forceinline__ float randomFloatNormalDistribution(unsigned int* state) {
+    float theta = 2 * PI * randomFloat(state);
+    float rho = sqrt(-2 * log(randomFloat(state)));
     return rho * cos(theta);
+}
+
+__host__ __device__ __forceinline__ float3 randomDirection(unsigned int* state) {
+    float x = randomFloatNormalDistribution(state);
+    float y = randomFloatNormalDistribution(state);
+    float z = randomFloatNormalDistribution(state);
+    return normalize(make_float3(x, y, z));
 }
 
 #endif // !UTILITYMATHFUNCTIONS_H

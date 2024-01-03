@@ -5,36 +5,6 @@
 extern "C" {
 	__constant__ Params params;
 }
-/*
-static __forceinline__ __device__ float3 operator*(const float3& a, const float s) {
-	return make_float3(a.x * s, a.y * s, a.z * s);
-}
-
-static __forceinline__ __device__ float3 operator*(const float s, const float3& a) {
-	return make_float3(a.x * s, a.y * s, a.z * s);
-}
-
-static __forceinline__ __device__ float2 operator*(const float s, const float2& a) {
-	return make_float2(a.x * s, a.y * s);
-}
-
-static __forceinline__ __device__ float3 operator+(const float3& a, const float3& b) {
-	return make_float3(a.x + b.x, a.y + b.y, a.z + b.z);
-}
-
-static __forceinline__ __device__ float2 operator-(const float2& a, const float b) {
-	return make_float2(a.x - b, a.y - b);
-}
-
-static __forceinline__ __device__ float dot(const float3& a, const float3& b) {
-	return a.x * b.x + a.y * b.y + a.z * b.z;
-}
-
-static __forceinline__ __device__ float3 normalize(const float3& v) {
-	float invLen = 1.0f / sqrtf(dot(v, v));
-	return v * invLen;
-}
-*/
 
 static __forceinline__ __device__ void computeRay(uint3 idx, uint3 dim, float3& origin, float3& direction, float2& offset) {
 	origin = params.camPosition;
@@ -63,6 +33,7 @@ extern "C" __global__ void __raygen__rg() {
 	const uint3 idx = optixGetLaunchIndex();
 	const uint3 dim = optixGetLaunchDimensions();
 	unsigned int pixelIndex = idx.y * params.width + idx.x;
+	unsigned int rngState = idx.y * params.width + idx.x + params.frameIndex;
 	int samplesPerPixel = 3;
 
 	uint4 colorAccumulator;
@@ -71,7 +42,7 @@ extern "C" __global__ void __raygen__rg() {
 	colorAccumulator.z = 0;
 
 	for (int i = 0; i < samplesPerPixel; i++) {
-		float2 pixelOffset = make_float2(-0.5 + randomFloat(params.rngState, pixelIndex), -0.5 + randomFloat(params.rngState, pixelIndex));
+		float2 pixelOffset = make_float2(-0.5 + randomFloat(&rngState), -0.5 + randomFloat(&rngState));
 		float3 rayOrigin, rayDirection;
 
 		computeRay(idx, dim, rayOrigin, rayDirection, pixelOffset);
@@ -90,7 +61,6 @@ extern "C" __global__ void __raygen__rg() {
 	pixelColor.w = 255u;
 
 	params.image[pixelIndex] = pixelColor;
-	//params.debug_buffer[pixelIndex] = colorAccumulator;
 }
 /*
 extern "C" __global__ void __raygen__rg() {
@@ -119,21 +89,6 @@ extern "C" __global__ void __miss__ms() {
 }
 
 extern "C" __global__ void __closesthit__ch() {
-	HitGroupData* rt_data = (HitGroupData*)optixGetSbtDataPointer();
-	//setPayload(rt_data->matColor);
-}
-
-extern "C" __global__ void __closesthit__red() {
-	HitGroupData* rt_data = (HitGroupData*)optixGetSbtDataPointer();
-	setPayload(make_float3(1.0f, 0.0f, 0.0f));
-}
-
-extern "C" __global__ void __closesthit__green() {
-	HitGroupData* rt_data = (HitGroupData*)optixGetSbtDataPointer();
-	setPayload(make_float3(1.0f, 1.0f, 0.0f));
-}
-
-extern "C" __global__ void __closesthit__blue() {
-	HitGroupData* rt_data = (HitGroupData*)optixGetSbtDataPointer();
-	setPayload(make_float3(1.0f, 1.0f, 1.0f));
+	HitgroupData* rt_data = (HitgroupData*)optixGetSbtDataPointer();
+	setPayload(rt_data->color);
 }

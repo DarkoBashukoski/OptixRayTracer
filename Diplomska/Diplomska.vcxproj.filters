@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Cuda Files">
       <UniqueIdentifier>{c43f0342-ca55-43d3-827c-acb34843a857}</UniqueIdentifier>
     </Filter>
@@ -21,9 +17,6 @@
     </Filter>
     <Filter Include="Header Files\imgui">
       <UniqueIdentifier>{b7f586b6-bfb2-45c7-829d-d216a78bc250}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Shader Files">
-      <UniqueIdentifier>{dcf83d41-432b-42ff-a7f4-10a9b6e9653d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Utilities">
       <UniqueIdentifier>{7dc2e2b4-8364-4a04-bb01-abd0563b3ef7}</UniqueIdentifier>
@@ -54,6 +47,16 @@
     </Filter>
     <Filter Include="Source Files\OptixRenderer">
       <UniqueIdentifier>{57a37af8-3434-4e7f-bb8a-1fe37eb6d9e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{dcf83d41-432b-42ff-a7f4-10a9b6e9653d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Models">
+      <UniqueIdentifier>{07a58df6-75d4-4669-9c61-291e29efd658}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,12 +90,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="OptixMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NVRTC_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -110,6 +107,27 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="OptixShaderCompiler.cpp">
+      <Filter>Source Files\OptixRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorChecks.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="OptixManager.cpp">
+      <Filter>Source Files\OptixRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RawModel.cpp">
+      <Filter>Source Files\OptixRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\OptixRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\OptixRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DenoiserMain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,17 +191,59 @@
     <ClInclude Include="RawModel.h">
       <Filter>Header Files\OptixRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\OptixRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="OptixShaderCompiler.h">
+      <Filter>Header Files\OptixRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorChecks.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="OptixManager.h">
+      <Filter>Header Files\OptixRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\OptixRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.glsl">
-      <Filter>Resource Files\Shader Files</Filter>
+      <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="fragmentShader.glsl">
-      <Filter>Resource Files\Shader Files</Filter>
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="BasicCube.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="GlowingCube.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="CornellBox.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="King.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="Pawn.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="Queen.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="Knight.json">
+      <Filter>Resources\Models</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="DrawSolidColor.cu">
+      <Filter>Cuda Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="PathTracing.cu">
       <Filter>Cuda Files</Filter>
     </CudaCompile>
   </ItemGroup>

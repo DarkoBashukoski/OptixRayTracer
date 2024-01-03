@@ -57,14 +57,14 @@ mat4& Camera::getViewMatrix() {
 void Camera::calculateViewMatrix() {
 	viewMatrix = mat4();
 	viewMatrix.identity();
-	viewMatrix = mat4::createRotationX(toRadians(rotation.x)) * viewMatrix;
-	viewMatrix = mat4::createRotationY(toRadians(rotation.y)) * viewMatrix;
-	viewMatrix = mat4::createRotationZ(toRadians(rotation.z)) * viewMatrix;
+	viewMatrix = viewMatrix * mat4::createRotationX(toRadians(rotation.x));
+	viewMatrix = viewMatrix * mat4::createRotationY(toRadians(rotation.y));
+	viewMatrix = viewMatrix * mat4::createRotationZ(toRadians(rotation.z));
 	float3 negativeCameraPos = -position;
-	viewMatrix = mat4::createTranslation(negativeCameraPos) * viewMatrix;
+	viewMatrix = viewMatrix * mat4::createTranslation(negativeCameraPos);
 }
 
-void Camera::update() {
+bool Camera::update() {
 	//Timer::getInstance()->getDelta(); TODO include delta time, probably switch delta to be ms instead of micro
 	double2 currentMousePos;
 	glfwGetCursorPos(window, &currentMousePos.x, &currentMousePos.y);
@@ -74,8 +74,8 @@ void Camera::update() {
 	bool changed = false;
 
 	if (delta.x != 0.0 || delta.y != 0.0) {
-		rotation.y -= delta.x * mouseSensitivity;
-		rotation.x -= delta.y * mouseSensitivity;
+		rotation.x += delta.y * mouseSensitivity;
+		rotation.y += delta.x * mouseSensitivity;
 
 		if (rotation.x >= 90.0f) {rotation.x = 90.0f;}
 		if (rotation.x <= -90.0f) {rotation.x = -90.0f;}
@@ -83,7 +83,7 @@ void Camera::update() {
 		if (rotation.y <= -180.0f) { rotation.y = rotation.y + 360; }
 
 		forward = normalize(make_float3(
-			-sin(toRadians(rotation.y)),
+			sin(toRadians(rotation.y)),
 			0.0f,
 			-cos(toRadians(rotation.y))
 		));
@@ -122,4 +122,5 @@ void Camera::update() {
 		calculateProjectionMatrix();
 		calculateViewMatrix();
 	}
+	return changed;
 }

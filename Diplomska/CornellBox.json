@@ -1,0 +1,116 @@
+{
+    "modelData": {
+        "vertexCount": 16,
+        "vertices": "-1.0;0.0;1.0;1.0;0.0;1.0;1.0;2.0;1.0;-1.0;2.0;1.0;-1.0;0.0;-1.0;1.0;0.0;-1.0;1.0;2.0;-1.0;-1.0;2.0;-1.0;-0.25;1.9;0.25;0.25;1.9;0.25;0.25;2.0;0.25;-0.25;2.0;0.25;-0.25;1.9;-0.25;0.25;1.9;-0.25;0.25;2.0;-0.25;-0.25;2.0;-0.25",
+        "triangleCount": 22,
+        "indices": "3;0;4;3;4;7;6;5;1;6;1;2;4;0;1;4;1;5;7;4;5;7;5;6;3;7;6;3;6;2;11;8;9;11;9;10;10;9;13;10;13;14;15;12;8;15;8;11;14;13;12;14;12;15;8;12;13;8;13;9;3;2;1;3;1;0",
+        "materialIndices": "1;1;6;6;2;2;5;5;0;0;3;3;3;3;3;3;3;3;3;3;4;4"
+    },
+    "materialData": [
+        {
+            "color": {
+                "red": 1.0,
+                "green": 1.0,
+                "blue": 1.0
+            },
+            "emissionColor": {
+                "red": 0.0,
+                "green": 0.0,
+                "blue": 0.0
+            },
+            "roughness": 1.0,
+            "metallic": 0.0,
+            "emissionPower": 0.0
+        },
+        {
+            "color": {
+                "red": 0.97,
+                "green": 0.04,
+                "blue": 0.04
+            },
+            "emissionColor": {
+                "red": 0.0,
+                "green": 0.0,
+                "blue": 0.0
+            },
+            "roughness": 1.0,
+            "metallic": 0.0,
+            "emissionPower": 0.0
+        },
+        {
+            "color": {
+                "red": 0.03,
+                "green": 1.0,
+                "blue": 0.07
+            },
+            "emissionColor": {
+                "red": 0.0,
+                "green": 0.0,
+                "blue": 0.0
+            },
+            "roughness": 1.0,
+            "metallic": 0.0,
+            "emissionPower": 0.0
+        },
+        {
+            "color": {
+                "red": 1.0,
+                "green": 1.0,
+                "blue": 1.0
+            },
+            "emissionColor": {
+                "red": 1.0,
+                "green": 1.0,
+                "blue": 1.0
+            },
+            "roughness": 1.0,
+            "metallic": 0.0,
+            "emissionPower": 15
+        },
+        {
+            "color": {
+                "red": 1.0,
+                "green": 0.84,
+                "blue": 0.84
+            },
+            "emissionColor": {
+                "red": 0.0,
+                "green": 0.0,
+                "blue": 0.0
+            },
+            "roughness": 1.0,
+            "metallic": 0.0,
+            "emissionPower": 0
+        },
+        {
+            "color": {
+                "red": 0.16,
+                "green": 0.16,
+                "blue": 0.16
+            },
+            "emissionColor": {
+                "red": 0.0,
+                "green": 0.0,
+                "blue": 0.0
+            },
+            "roughness": 1.0,
+            "metallic": 0.0,
+            "emissionPower": 0
+        },
+        {
+            "color": {
+                "red": 0,
+                "green": 0.1,
+                "blue": 1.0
+            },
+            "emissionColor": {
+                "red": 0.0,
+                "green": 0.0,
+                "blue": 0.0
+            },
+            "roughness": 1.0,
+            "metallic": 0.0,
+            "emissionPower": 0
+        }
+    ]
+}

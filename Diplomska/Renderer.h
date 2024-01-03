@@ -10,6 +10,7 @@
 #include "CudaOutputBuffer.h"
 #include <vector>
 #include "StaticShader.h"
+#include "DisplayManager.h"
 
 class Renderer {
 private:

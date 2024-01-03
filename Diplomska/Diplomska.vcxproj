@@ -155,7 +155,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DenoiserMain.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="ErrorChecks.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -165,8 +168,10 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="NVRTC_main.cpp" />
-    <ClCompile Include="OptixMain.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="OptixManager.cpp" />
+    <ClCompile Include="OptixShaderCompiler.cpp" />
+    <ClCompile Include="RawModel.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="StaticShader.cpp" />
@@ -177,6 +182,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CudaOutputBuffer.h" />
     <ClInclude Include="DisplayManager.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="ErrorChecks.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
@@ -186,6 +193,10 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="OptixManager.h" />
+    <ClInclude Include="OptixShaderCompiler.h" />
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="RawModel.h" />
     <ClInclude Include="Renderer.h" />
@@ -196,11 +207,22 @@
     <ClInclude Include="UtilityMathFunctions.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BasicCube.json" />
+    <None Include="CornellBox.json" />
     <None Include="fragmentShader.glsl" />
+    <None Include="GlowingCube.json" />
+    <None Include="King.json" />
+    <None Include="Knight.json" />
+    <None Include="Pawn.json" />
+    <None Include="Queen.json" />
     <None Include="vertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="DrawSolidColor.cu">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CudaCompile>
+    <CudaCompile Include="PathTracing.cu">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CudaCompile>

@@ -4,7 +4,8 @@
 
 struct Params {
     uchar4* image;
-    uint3* debug_buffer;
+    float3* colorAccumulator;
+    unsigned int frameIndex;
     unsigned int width;
     unsigned int height;
     float3 camPosition;
@@ -13,16 +14,23 @@ struct Params {
     mat4 viewMatrix;
     mat4 inverseView;
     OptixTraversableHandle handle;
-    unsigned int* rngState;
 };
 
-struct RayGenData { };
-
-struct HitGroupData {
-    float3 matColor;
-};
+struct RaygenData { };
 
 struct MissData { 
-    float3 topColor;
-    float3 bottomColor;
+    float3 skyColorZenith;
+    float3 skyColorHorizon;
+    float3 groundColor;
+    float3 sunDirection;
+    float sunFocus;
+    float sunIntensity;
+};
+
+struct HitgroupData {
+    float3 color;
+    float roughness;
+    float metallic;
+    float3 emissionColor;
+    float emissionPower;
 };
