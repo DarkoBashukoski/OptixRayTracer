@@ -3,13 +3,16 @@
 void RawModel::parseModelData(json modelData) {
 	vertexCount = modelData["vertexCount"];
 	string vertexString = modelData["vertices"].template get<string>();
+	vertexNormalCount = modelData["vertexNormalCount"];
+	string vertexNormalsString = modelData["vertexNormals"].template get<string>();
 	triangleCount = modelData["triangleCount"];
 	string indexString = modelData["indices"].template get<string>();
-	string meterialIndexString = modelData["materialIndices"];
+	string vertexNormalIndicesString = modelData["vertexNormalIndices"];
 
 	vertices = (float3*)malloc(vertexCount * sizeof(float3)); //moras free nekogas
+	vertexNormals = (float3*)malloc(vertexNormalCount * sizeof(float3)); //morat free nekogas
 	indices = (uint3*)malloc(triangleCount * sizeof(uint3)); //moras free nekogas
-	materialIndices = (uint32_t*)malloc(triangleCount * sizeof(uint32_t)); //moras free nekogas
+	vertexNormalIndices = (uint3*)malloc(triangleCount * sizeof(uint3)); //moras free nekogas
 
 	string str;
 
@@ -28,6 +31,21 @@ void RawModel::parseModelData(json modelData) {
 	}
 	s.clear();
 
+	s = stringstream(vertexNormalsString);
+	for (int i = 0; i < vertexNormalCount; i++) {
+		float3 vertexNormal;
+
+		getline(s, str, ';');
+		vertexNormal.x = stof(str);
+		getline(s, str, ';');
+		vertexNormal.y = stof(str);
+		getline(s, str, ';');
+		vertexNormal.z = stof(str);
+
+		*(vertexNormals + i) = vertexNormal;
+	}
+	s.clear();
+
 	s = stringstream(indexString);
 	for (int i = 0; i < triangleCount; i++) {
 		uint3 indexTriplet;
@@ -43,48 +61,52 @@ void RawModel::parseModelData(json modelData) {
 	}
 	s.clear();
 
-	s = stringstream(meterialIndexString);
+	s = stringstream(vertexNormalIndicesString);
 	for (int i = 0; i < triangleCount; i++) {
-		uint32_t index;
+		uint3 indexTriplet;
 
 		getline(s, str, ';');
-		index = stoi(str);
+		indexTriplet.x = stoi(str);
+		getline(s, str, ';');
+		indexTriplet.y = stoi(str);
+		getline(s, str, ';');
+		indexTriplet.z = stoi(str);
 
-		*(materialIndices + i) = index;
+		*(vertexNormalIndices + i) = indexTriplet;
 	}
 	s.clear();
+
+	size_t vertexNormalsSize = sizeof(float3) * vertexNormalCount;
+	CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dVertexNormals), vertexNormalsSize));
+	CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dVertexNormals), vertexNormals, vertexNormalsSize, cudaMemcpyHostToDevice));
+
+	size_t vertexNormalIndicesSize = sizeof(uint3) * triangleCount;
+	CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dVertexNormalIndices), vertexNormalIndicesSize));
+	CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dVertexNormalIndices), vertexNormalIndices, vertexNormalIndicesSize, cudaMemcpyHostToDevice));
+
+	//mojs free da dodajs ovde na host data, mozno e da trebit cuda sync check
 }
 
 void RawModel::parseMaterialData(json materialData){
-	materialCount = materialData.size();
-	materials = vector<Material>();
-	
-	for (int i = 0; i < materialCount; i++) {
-		json matData = materialData[i];
+	material = Material();
 
-		Material mat = Material();
-		mat.color.x = matData["color"]["red"];
-		mat.color.y = matData["color"]["green"];
-		mat.color.z = matData["color"]["blue"];
-		mat.emissionColor.x = matData["color"]["red"];
-		mat.emissionColor.y = matData["color"]["green"];
-		mat.emissionColor.z = matData["color"]["blue"];
-		mat.roughness = matData["roughness"];
-		mat.metallic = matData["metallic"];
-		mat.emissionPower = matData["emissionPower"];
-
-		materials.push_back(mat);
-	}
+	material.color.x = materialData["color"]["red"];
+	material.color.y = materialData["color"]["green"];
+	material.color.z = materialData["color"]["blue"];
+	material.emissionColor.x = materialData["color"]["red"];
+	material.emissionColor.y = materialData["color"]["green"];
+	material.emissionColor.z = materialData["color"]["blue"];
+	material.roughness = materialData["roughness"];
+	material.metallic = materialData["metallic"];
+	material.emissionPower = materialData["emissionPower"];
 }
 
 RawModel::RawModel(OptixDeviceContext _context, string fileName) : context(_context) {
 	ifstream f(fileName);
 	json data = json::parse(f);
 
-	cout << "KOSNA";
-
 	parseModelData(data["modelData"]);
-	parseMaterialData(data["materialData"]);
+	parseMaterialData(data["material"]);
 	buildGas();
 }
 
@@ -99,17 +121,17 @@ void RawModel::buildGas() {
 	CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dIndexBuffer), indicesSize));
 	CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dIndexBuffer), indices, indicesSize, cudaMemcpyHostToDevice));
 
-	const size_t matSize = sizeof(uint32_t) * triangleCount;
+	const size_t matSize = sizeof(uint32_t);
 	CUdeviceptr dMaterialIndeces = 0;
 	CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dMaterialIndeces), matSize));
-	CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(dMaterialIndeces), materialIndices, matSize, cudaMemcpyHostToDevice));
+	CUDA_CHECK(cudaMemset(reinterpret_cast<void*>(dMaterialIndeces), 0, matSize));
 
 	OptixAccelBuildOptions accelOptions = {};
 	accelOptions.buildFlags = OPTIX_BUILD_FLAG_ALLOW_COMPACTION | OPTIX_BUILD_FLAG_ALLOW_RANDOM_VERTEX_ACCESS;
 	accelOptions.operation = OPTIX_BUILD_OPERATION_BUILD;
 
-	uint32_t* triangleInputFlags = (uint32_t*)malloc(materialCount * sizeof(uint32_t));
-	for (int i = 0; i < materialCount; i++) {
+	uint32_t* triangleInputFlags = (uint32_t*)malloc(sizeof(uint32_t));
+	for (int i = 0; i < 1; i++) {
 		triangleInputFlags[i] = OPTIX_GEOMETRY_FLAG_NONE;
 	}
 
@@ -124,7 +146,7 @@ void RawModel::buildGas() {
 	triangleInput.triangleArray.indexFormat = OPTIX_INDICES_FORMAT_UNSIGNED_INT3;
 	triangleInput.triangleArray.indexStrideInBytes = sizeof(uint3);
 	triangleInput.triangleArray.flags = triangleInputFlags;
-	triangleInput.triangleArray.numSbtRecords = materialCount;
+	triangleInput.triangleArray.numSbtRecords = 1;
 	triangleInput.triangleArray.sbtIndexOffsetBuffer = dMaterialIndeces;
 	triangleInput.triangleArray.sbtIndexOffsetSizeInBytes = sizeof(uint32_t);
 	triangleInput.triangleArray.sbtIndexOffsetStrideInBytes = sizeof(uint32_t);
@@ -155,10 +177,14 @@ OptixTraversableHandle RawModel::getGasHandle() {
 	return gasHandle;
 }
 
-uint32_t RawModel::getMaterialCount() {
-	return materialCount;
+Material& RawModel::getMaterial() {
+	return material;
 }
 
-vector<Material> RawModel::getMaterials() {
-	return materials;
+CUdeviceptr RawModel::getDeviceVertexNormals() {
+	return dVertexNormals;
+}
+
+CUdeviceptr RawModel::getDeviceVertexNormalIndices() {
+	return dVertexNormalIndices;
 }

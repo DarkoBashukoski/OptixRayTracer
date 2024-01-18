@@ -26,6 +26,7 @@ public:
 	Renderer();
 	~Renderer();
 	void render(CudaOutputBuffer<uchar4>& buffer);
+	void render(CudaOutputBuffer<float3>& buffer);
 };
 
 #endif // !RENDERER_H

@@ -25,6 +25,8 @@ private:
 	mat4 projectionMatirx;
 	mat4 viewMatrix;
 	double2 lastMousePos;
+	int lastTab;
+	bool cursorEnabled;
 	double mouseSensitivity;
 	void calculateProjectionMatrix();
 	void calculateViewMatrix();

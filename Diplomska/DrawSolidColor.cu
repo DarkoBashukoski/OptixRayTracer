@@ -24,71 +24,73 @@ static __forceinline__ __device__ void computeRay(uint3 idx, uint3 dim, float3& 
 }
 
 static __forceinline__ __device__ void setPayload(float3 p) {
-	optixSetPayload_0(p.x * 255);
-	optixSetPayload_1(p.y * 255);
-	optixSetPayload_2(p.z * 255);
+	optixSetPayload_0(floatAsUint(p.x));
+	optixSetPayload_1(floatAsUint(p.y));
+	optixSetPayload_2(floatAsUint(p.z));
+}
+
+static __forceinline__ __device__ void setPayload(float3 p, float3 n) {
+	optixSetPayload_0(floatAsUint(p.x));
+	optixSetPayload_1(floatAsUint(p.y));
+	optixSetPayload_2(floatAsUint(p.z));
+
+	optixSetPayload_3(floatAsUint(n.x));
+	optixSetPayload_4(floatAsUint(n.y));
+	optixSetPayload_5(floatAsUint(n.z));
 }
 
 extern "C" __global__ void __raygen__rg() {
 	const uint3 idx = optixGetLaunchIndex();
 	const uint3 dim = optixGetLaunchDimensions();
 	unsigned int pixelIndex = idx.y * params.width + idx.x;
-	unsigned int rngState = idx.y * params.width + idx.x + params.frameIndex;
-	int samplesPerPixel = 3;
 
-	uint4 colorAccumulator;
-	colorAccumulator.x = 0;
-	colorAccumulator.y = 0;
-	colorAccumulator.z = 0;
+	float3 pixelColor;
+	float3 normal;
 
-	for (int i = 0; i < samplesPerPixel; i++) {
-		float2 pixelOffset = make_float2(-0.5 + randomFloat(&rngState), -0.5 + randomFloat(&rngState));
-		float3 rayOrigin, rayDirection;
+	float2 pixelOffset = make_float2(0.0f, 0.0f);
+	float3 rayOrigin, rayDirection;
 
-		computeRay(idx, dim, rayOrigin, rayDirection, pixelOffset);
+	computeRay(idx, dim, rayOrigin, rayDirection, pixelOffset);
 
-		unsigned int p0, p1, p2;
-		optixTrace(params.handle, rayOrigin, rayDirection, 0.0f, 100, 0.0f, OptixVisibilityMask(255), OPTIX_RAY_FLAG_NONE, 0, 1, 0, p0, p1, p2);
-		colorAccumulator.x += p0;
-		colorAccumulator.y += p1;
-		colorAccumulator.z += p2;
-	}
+	unsigned int p0, p1, p2, p3, p4, p5;
+	optixTrace(params.handle, rayOrigin, rayDirection, 0.0f, 100, 0.0f, OptixVisibilityMask(255), OPTIX_RAY_FLAG_CULL_BACK_FACING_TRIANGLES, 0, 1, 0, p0, p1, p2, p3, p4, p5);
 
-	uchar4 pixelColor;
-	pixelColor.x = colorAccumulator.x / samplesPerPixel;
-	pixelColor.y = colorAccumulator.y / samplesPerPixel;
-	pixelColor.z = colorAccumulator.z / samplesPerPixel;
-	pixelColor.w = 255u;
+	pixelColor.x = uintAsFloat(p0);
+	pixelColor.y = uintAsFloat(p1);
+	pixelColor.z = uintAsFloat(p2);
+
+	normal.x = uintAsFloat(p3);
+	normal.y = uintAsFloat(p4);
+	normal.z = uintAsFloat(p5);
 
 	params.image[pixelIndex] = pixelColor;
+	params.normals[pixelIndex] = normal;
 }
-/*
-extern "C" __global__ void __raygen__rg() {
-	const uint3 idx = optixGetLaunchIndex();
-	const uint3 dim = optixGetLaunchDimensions();
 
-	unsigned int pixelIndex = idx.y * params.width + idx.x;
-
-	uchar4 pixelColor;
-	pixelColor.x = randomFloat(params.rngState, pixelIndex) * 255;
-	pixelColor.y = randomFloat(params.rngState, pixelIndex) * 255;
-	pixelColor.z = randomFloat(params.rngState, pixelIndex) * 255;
-	pixelColor.w = 255u;
-
-	params.image[pixelIndex] = pixelColor;
-}
-*/
 extern "C" __global__ void __miss__ms() {
 	MissData* missData = reinterpret_cast<MissData*>(optixGetSbtDataPointer());
 
-	float ratio = (float) optixGetLaunchIndex().y / (float) params.height;
+	const float3 rayDirection = optixGetWorldRayDirection();
 
-	float3 newColor = ratio * (missData->bottomColor) + (1 - ratio) * (missData->topColor);
+	float skyGradientT = pow(smoothstep(0.0f, 0.4f, rayDirection.y), 0.35f);
+	float3 skyGradient = lerp(missData->skyColorHorizon, missData->skyColorZenith, skyGradientT);
 
-	setPayload(newColor);
+	float groundToSkyT = smoothstep(-0.01f, 0.0f, rayDirection.y);
+
+	float sun = pow(maximum(0, dot(rayDirection, -missData->sunDirection)), missData->sunFocus) * missData->sunIntensity;
+	float sunMask = groundToSkyT >= 1;
+
+	float3 light = lerp(missData->groundColor, skyGradient, groundToSkyT) + sun * sunMask;
+
+	float3 normal = make_float3(0.0f, 0.0f, 0.0f);
+	setPayload(light, normal);
 }
 
 extern "C" __global__ void __closesthit__ch() {
 	HitgroupData* rt_data = (HitgroupData*)optixGetSbtDataPointer();
-	setPayload(rt_data->color);
+
+	float3 hitVertices[3];
+	optixGetTriangleVertexData(optixGetGASTraversableHandle(), optixGetPrimitiveIndex(), optixGetSbtGASIndex(), optixGetRayTime(), hitVertices);
+	float3 normal = normalize(cross(hitVertices[1] - hitVertices[0], hitVertices[2] - hitVertices[0]));
+	setPayload(rt_data->color, normal);
 }

@@ -126,8 +126,8 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\OptixRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="DenoiserMain.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Denoiser.cpp">
+      <Filter>Source Files\OptixRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +209,9 @@
     <ClInclude Include="json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Denoiser.h">
+      <Filter>Header Files\OptixRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.glsl">
@@ -238,12 +241,27 @@
     <None Include="Knight.json">
       <Filter>Resources\Models</Filter>
     </None>
+    <None Include="Stormtrooper.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="StormtrooperBox.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="StormtrooperFrame.json">
+      <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="StormtrooperLights.json">
+      <Filter>Resources\Models</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="DrawSolidColor.cu">
       <Filter>Cuda Files</Filter>
     </CudaCompile>
     <CudaCompile Include="PathTracing.cu">
+      <Filter>Cuda Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="RayTracing.cu">
       <Filter>Cuda Files</Filter>
     </CudaCompile>
   </ItemGroup>

@@ -23,12 +23,16 @@ private:
 
 	uint32_t vertexCount;
 	float3* vertices;
+	uint32_t vertexNormalCount;
+	float3* vertexNormals;
 	uint32_t triangleCount;
 	uint3* indices;
-	uint32_t* materialIndices;
+	uint3* vertexNormalIndices;
 	OptixTraversableHandle gasHandle;
-	uint32_t materialCount;
-	vector<Material> materials;
+	Material material;
+
+	CUdeviceptr dVertexNormals;
+	CUdeviceptr dVertexNormalIndices;
 
 	void parseModelData(json modelData);
 	void parseMaterialData(json materialData);
@@ -36,8 +40,9 @@ private:
 public:
 	RawModel(OptixDeviceContext _context, string fileName);
 	OptixTraversableHandle getGasHandle();
-	uint32_t getMaterialCount();
-	vector<Material> getMaterials();
+	Material& getMaterial();
+	CUdeviceptr getDeviceVertexNormals();
+	CUdeviceptr getDeviceVertexNormalIndices();
 };
 
 #endif // !RAWMODEL_H

@@ -24,13 +24,13 @@ void OptixManager::buildModule() {
 
 	pipelineCompileOptions.usesMotionBlur = false;
 	pipelineCompileOptions.traversableGraphFlags = OPTIX_TRAVERSABLE_GRAPH_FLAG_ALLOW_SINGLE_LEVEL_INSTANCING;
-	pipelineCompileOptions.numPayloadValues = 14;
+	pipelineCompileOptions.numPayloadValues = 17;
 	pipelineCompileOptions.numAttributeValues = 3;
 	pipelineCompileOptions.exceptionFlags = OPTIX_EXCEPTION_FLAG_NONE;
 	pipelineCompileOptions.pipelineLaunchParamsVariableName = "params";
 
 	size_t compiledCodeSize;
-	char* compiledCode = OptixShaderCompiler::compileShader("PathTracing.cu", &compiledCodeSize);
+	char* compiledCode = OptixShaderCompiler::compileShader("RayTracing.cu", &compiledCodeSize);
 
 	OPTIX_CHECK(optixModuleCreate(context, &moduleCompileOptions, &pipelineCompileOptions, compiledCode, compiledCodeSize, outLog, &outLogSize, &module));
 	buildPipeline(pipelineCompileOptions);
@@ -123,7 +123,7 @@ void OptixManager::buildIas() {
 
 			instances.push_back(optixInstance);
 		}
-		sbtOffset += model->getMaterialCount();
+		sbtOffset += 1;
 	}
 
 	CUdeviceptr dOptixInstances;
@@ -184,20 +184,21 @@ void OptixManager::buildSbt() {
 
 	for (const pair<RawModel*, vector<Entity*>> pair : entities) {
 		RawModel* model = pair.first;
-		vector<Material> materials = model->getMaterials();
+		Material material = model->getMaterial();
 
-		for (int i = 0; i < materials.size(); i++) {
-			HitgroupSbtRecord newRecord = {};
+		HitgroupSbtRecord newRecord = {};
 
-			OPTIX_CHECK(optixSbtRecordPackHeader(hitgroupProgGroup, &newRecord));
-			newRecord.data.color = materials[i].color;
-			newRecord.data.metallic = materials[i].metallic;
-			newRecord.data.roughness = materials[i].roughness;
-			newRecord.data.emissionColor = materials[i].emissionColor;
-			newRecord.data.emissionPower = materials[i].emissionPower;
+		OPTIX_CHECK(optixSbtRecordPackHeader(hitgroupProgGroup, &newRecord));
+		newRecord.data.color = material.color;
+		newRecord.data.metallic = material.metallic;
+		newRecord.data.roughness = material.roughness;
+		newRecord.data.emissionColor = material.emissionColor;
+		newRecord.data.emissionPower = material.emissionPower;
 
-			hitgroupRecords.push_back(newRecord);
-		}
+		newRecord.data.vertexNormals = (float3*)model->getDeviceVertexNormals();
+		newRecord.data.vertexNormalIndices = (uint3*)model->getDeviceVertexNormalIndices();
+
+		hitgroupRecords.push_back(newRecord);
 	}
 	
 	CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&dHitgroupRecord), hitgroupRecordSize * hitgroupRecords.size()));
@@ -218,7 +219,7 @@ uint32_t OptixManager::getHitgroupRecordCount() {
 	for (const pair<RawModel*, vector<Entity*>> pair : entities) {
 		RawModel* model = pair.first;
 		
-		total += model->getMaterialCount();
+		total += 1;
 	}
 
 	return total;

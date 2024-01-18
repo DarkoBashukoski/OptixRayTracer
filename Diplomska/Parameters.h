@@ -3,11 +3,13 @@
 #include "UtilityMathFunctions.h"
 
 struct Params {
-    uchar4* image;
-    float3* colorAccumulator;
-    unsigned int frameIndex;
+    float3* image;
+    float3* normals;
+    float3* albedo;
     unsigned int width;
     unsigned int height;
+    int samplesPerPixel;
+    int maxDepth;
     float3 camPosition;
     mat4 projectionMatrix;
     mat4 inverseProjection;
@@ -18,7 +20,7 @@ struct Params {
 
 struct RaygenData { };
 
-struct MissData { 
+struct MissData {
     float3 skyColorZenith;
     float3 skyColorHorizon;
     float3 groundColor;
@@ -33,4 +35,7 @@ struct HitgroupData {
     float metallic;
     float3 emissionColor;
     float emissionPower;
+
+    float3* vertexNormals;
+    uint3* vertexNormalIndices;
 };

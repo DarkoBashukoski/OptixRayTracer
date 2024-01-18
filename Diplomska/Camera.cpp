@@ -9,9 +9,11 @@ Camera::Camera(float3& _position, float3& _rotation, GLFWwindow* _window) : posi
 	farClip = 1000.0f;
 	mouseSensitivity = 0.02;
 	glfwGetCursorPos(window, &lastMousePos.x, &lastMousePos.y);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	calculateProjectionMatrix();
 	calculateViewMatrix();
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	cursorEnabled = false;
+	lastTab = GLFW_RELEASE;
 };
 
 float3& Camera::getPosition() {
@@ -73,22 +75,24 @@ bool Camera::update() {
 
 	bool changed = false;
 
-	if (delta.x != 0.0 || delta.y != 0.0) {
-		rotation.x += delta.y * mouseSensitivity;
-		rotation.y += delta.x * mouseSensitivity;
+	if (!cursorEnabled) {
+		if (delta.x != 0.0 || delta.y != 0.0) {
+			rotation.x += delta.y * mouseSensitivity;
+			rotation.y += delta.x * mouseSensitivity;
 
-		if (rotation.x >= 90.0f) {rotation.x = 90.0f;}
-		if (rotation.x <= -90.0f) {rotation.x = -90.0f;}
-		if (rotation.y >= 180.0f) { rotation.y = rotation.y - 360; }
-		if (rotation.y <= -180.0f) { rotation.y = rotation.y + 360; }
+			if (rotation.x >= 90.0f) { rotation.x = 90.0f; }
+			if (rotation.x <= -90.0f) { rotation.x = -90.0f; }
+			if (rotation.y >= 180.0f) { rotation.y = rotation.y - 360; }
+			if (rotation.y <= -180.0f) { rotation.y = rotation.y + 360; }
 
-		forward = normalize(make_float3(
-			sin(toRadians(rotation.y)),
-			0.0f,
-			-cos(toRadians(rotation.y))
-		));
+			forward = normalize(make_float3(
+				sin(toRadians(rotation.y)),
+				0.0f,
+				-cos(toRadians(rotation.y))
+			));
 
-		changed = true;
+			changed = true;
+		}
 	}
 
 	float3 right = cross(forward, up);
@@ -122,5 +126,18 @@ bool Camera::update() {
 		calculateProjectionMatrix();
 		calculateViewMatrix();
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_TAB) != lastTab && glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
+		cursorEnabled = !cursorEnabled;
+		if (cursorEnabled) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+		else {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+	}
+
+	lastTab = glfwGetKey(window, GLFW_KEY_TAB);
+
 	return changed;
 }

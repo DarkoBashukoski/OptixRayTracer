@@ -61,9 +61,9 @@ void Renderer::render(CudaOutputBuffer<uchar4>& buffer) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
+	//ImGui_ImplOpenGL3_NewFrame();
+	//ImGui_ImplGlfw_NewFrame();
+	//ImGui::NewFrame();
 
 	glBindVertexArray(vaoId);
 	glEnableVertexAttribArray(0);
@@ -84,9 +84,9 @@ void Renderer::render(CudaOutputBuffer<uchar4>& buffer) {
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
-	ImGui::Begin("My name is window, ImGUI window");
+	//ImGui::Begin("My name is window, ImGUI window");
 	//ImGui::ColorEdit3("Background color", );
-	ImGui::End();
+	//ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -94,6 +94,37 @@ void Renderer::render(CudaOutputBuffer<uchar4>& buffer) {
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glBindVertexArray(0);
+
+	shader.stop();
+}
+
+void Renderer::render(CudaOutputBuffer<float3>& buffer) {
+	shader.start();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, DisplayManager::getInstance()->getWidth(), DisplayManager::getInstance()->getHeight());
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glBindVertexArray(vaoId);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, buffer.getPixelBufferObject());
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, DisplayManager::getInstance()->getWidth(), DisplayManager::getInstance()->getHeight(), 0, GL_RGB, GL_FLOAT, nullptr);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glBindVertexArray(0);
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	shader.stop();
 }

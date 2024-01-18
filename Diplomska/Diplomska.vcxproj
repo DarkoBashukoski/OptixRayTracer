@@ -155,7 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="DenoiserMain.cpp" />
+    <ClCompile Include="Denoiser.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ErrorChecks.cpp" />
@@ -181,6 +181,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CudaOutputBuffer.h" />
+    <ClInclude Include="Denoiser.h" />
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ErrorChecks.h" />
@@ -215,6 +216,10 @@
     <None Include="Knight.json" />
     <None Include="Pawn.json" />
     <None Include="Queen.json" />
+    <None Include="Stormtrooper.json" />
+    <None Include="StormtrooperBox.json" />
+    <None Include="StormtrooperFrame.json" />
+    <None Include="StormtrooperLights.json" />
     <None Include="vertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +228,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CudaCompile>
     <CudaCompile Include="PathTracing.cu">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CudaCompile>
+    <CudaCompile Include="RayTracing.cu">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CudaCompile>

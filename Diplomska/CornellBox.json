@@ -33,7 +33,7 @@
                 "green": 0.0,
                 "blue": 0.0
             },
-            "roughness": 1.0,
+            "roughness": 0.0,
             "metallic": 0.0,
             "emissionPower": 0.0
         },
@@ -108,7 +108,7 @@
                 "green": 0.0,
                 "blue": 0.0
             },
-            "roughness": 1.0,
+            "roughness": 0.0,
             "metallic": 0.0,
             "emissionPower": 0
         }
