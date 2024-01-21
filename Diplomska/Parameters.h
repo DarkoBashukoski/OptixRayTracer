@@ -6,6 +6,7 @@ struct Params {
     float3* image;
     float3* normals;
     float3* albedo;
+    int frameIndex;
     unsigned int width;
     unsigned int height;
     int samplesPerPixel;

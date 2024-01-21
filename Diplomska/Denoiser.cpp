@@ -2,8 +2,8 @@
 
 Denoiser::Denoiser(OptixDeviceContext context, CUstream _stream, int _width, int _height) : stream(_stream), width(_width), height(_height) {
 	OptixDenoiserOptions denoiserOptions = {};
-	denoiserOptions.guideAlbedo = 0;
-	denoiserOptions.guideNormal = 0;
+	denoiserOptions.guideAlbedo = 1;
+	denoiserOptions.guideNormal = 1;
 
 	OPTIX_CHECK(optixDenoiserCreate(context, OptixDenoiserModelKind::OPTIX_DENOISER_MODEL_KIND_HDR, &denoiserOptions, &denoiser));
 	OPTIX_CHECK(optixDenoiserComputeMemoryResources(denoiser, width, height, &denoiserSizes));
@@ -35,7 +35,7 @@ void Denoiser::launch(float3* dInputData, float3* dOutputData, float3* dNormalDa
 	layer.output.format = OPTIX_PIXEL_FORMAT_FLOAT3;
 
 	OptixDenoiserGuideLayer guideLayer = {};
-	/*
+	
 	guideLayer.albedo.data = reinterpret_cast<CUdeviceptr>(dAlbedoData);
 	guideLayer.albedo.width = width;
 	guideLayer.albedo.height = height;
@@ -49,7 +49,7 @@ void Denoiser::launch(float3* dInputData, float3* dOutputData, float3* dNormalDa
 	guideLayer.normal.rowStrideInBytes = width * sizeof(float3);
 	guideLayer.normal.pixelStrideInBytes = sizeof(float3);
 	guideLayer.normal.format = OPTIX_PIXEL_FORMAT_FLOAT3;
-	*/
+	
 	OPTIX_CHECK(optixDenoiserComputeIntensity(
 		denoiser,
 		stream,

@@ -24,7 +24,7 @@ void OptixManager::buildModule() {
 
 	pipelineCompileOptions.usesMotionBlur = false;
 	pipelineCompileOptions.traversableGraphFlags = OPTIX_TRAVERSABLE_GRAPH_FLAG_ALLOW_SINGLE_LEVEL_INSTANCING;
-	pipelineCompileOptions.numPayloadValues = 17;
+	pipelineCompileOptions.numPayloadValues = 15;
 	pipelineCompileOptions.numAttributeValues = 3;
 	pipelineCompileOptions.exceptionFlags = OPTIX_EXCEPTION_FLAG_NONE;
 	pipelineCompileOptions.pipelineLaunchParamsVariableName = "params";
@@ -104,6 +104,17 @@ void OptixManager::addEntity(Entity* entity) {
 		entities.insert({ model, vector<Entity*>() });
 	}
 	entities[model].push_back(entity);
+	totalTriangleCount += model->getTriangleCount();
+}
+
+void OptixManager::addEntities(vector<Entity> _entities) {
+	for (Entity e : _entities) {
+		addEntity(&e);
+	}
+}
+
+unsigned int OptixManager::getTriangleCount() {
+	return totalTriangleCount;
 }
 
 void OptixManager::buildIas() {

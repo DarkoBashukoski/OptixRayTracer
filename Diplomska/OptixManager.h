@@ -38,6 +38,7 @@ private:
 	const uint32_t maxTraceDepth = 5;
 	OptixTraversableHandle iasHandle;
 	unordered_map<RawModel*, vector<Entity*>> entities;
+	unsigned int totalTriangleCount;
 
 	OptixProgramGroup raygenProgGroup = nullptr;
 	OptixProgramGroup missProgGroup = nullptr;
@@ -54,8 +55,10 @@ public:
 	OptixShaderBindingTable getSbt();
 	OptixPipeline getPipeline();
 	void addEntity(Entity* entity);
+	void addEntities(vector<Entity> _entities);
 	void buildIas();
 	void buildSbt();
+	unsigned int getTriangleCount();
 };
 
 #endif // !OPTIXMANAGER_H

@@ -43,6 +43,7 @@ public:
 	Material& getMaterial();
 	CUdeviceptr getDeviceVertexNormals();
 	CUdeviceptr getDeviceVertexNormalIndices();
+	uint32_t getTriangleCount();
 };
 
 #endif // !RAWMODEL_H

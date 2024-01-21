@@ -188,3 +188,7 @@ CUdeviceptr RawModel::getDeviceVertexNormals() {
 CUdeviceptr RawModel::getDeviceVertexNormalIndices() {
 	return dVertexNormalIndices;
 }
+
+uint32_t RawModel::getTriangleCount() {
+	return triangleCount;
+}

@@ -21,6 +21,6 @@
         },
         "roughness": 1.0,
         "metallic": 0.0,
-        "emissionPower": 1.0
+        "emissionPower": 2.0
     }
 }

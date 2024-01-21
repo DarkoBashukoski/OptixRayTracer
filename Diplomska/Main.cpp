@@ -16,6 +16,7 @@
 #include "OptixManager.h"
 #include "RawModel.h"
 #include "Denoiser.h"
+#include "Scene.h"
 
 using namespace std;
 
@@ -32,29 +33,8 @@ int main() {
 
 	Denoiser denoiser = Denoiser(optixManager->getContext(), stream, width, height);
 
-	//RawModel cornellBox = RawModel(optixManager->getContext(), "CornellBox.json");
-	//RawModel cube = RawModel(optixManager->getContext(), "BasicCube.json");
-	//RawModel knight = RawModel(optixManager->getContext(), "Knight.json");
-	RawModel stormtrooper = RawModel(optixManager->getContext(), "Stormtrooper.json");
-	RawModel stormtrooperFrame = RawModel(optixManager->getContext(), "StormtrooperFrame.json");
-	RawModel stormtrooperBox = RawModel(optixManager->getContext(), "StormtrooperBox.json");
-	RawModel stormtrooperLights = RawModel(optixManager->getContext(), "StormtrooperLights.json");
-
-	//Entity e1 = Entity(&cornellBox, make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 0.0f, 0.0f), make_float3(1.0f, 1.0f, 1.0f));
-	//Entity e2 = Entity(&cube, make_float3(0.1f, 0.0f, 0.0f), make_float3(0.0f, 45.0f, 0.0f), make_float3(0.5f, 1.0f, 0.5f));
-	//Entity e3 = Entity(&cube, make_float3(-1.0f, 0.0f, 0.0f), make_float3(0.0f, -30.0f, 0.0f), make_float3(0.5f, 0.5f, 0.5f));
-	Entity e4 = Entity(&stormtrooper, make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 0.0f, 0.0f), make_float3(1.0f, 1.0f, 1.0f));
-	Entity e5 = Entity(&stormtrooperFrame, make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 0.0f, 0.0f), make_float3(1.0f, 1.0f, 1.0f));
-	Entity e6 = Entity(&stormtrooperBox, make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 0.0f, 0.0f), make_float3(1.0f, 1.0f, 1.0f));
-	Entity e7 = Entity(&stormtrooperLights, make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 0.0f, 0.0f), make_float3(1.0f, 1.0f, 1.0f));
-
-	//optixManager->addEntity(&e1);
-	//optixManager->addEntity(&e2);
-	//optixManager->addEntity(&e3);
-	optixManager->addEntity(&e4);
-	optixManager->addEntity(&e5);
-	optixManager->addEntity(&e6);
-	optixManager->addEntity(&e7);
+	Scene scene = Scene(optixManager->getContext(), "StormtrooperScene.json");
+	optixManager->addEntities(scene.getEntities());
 
 	optixManager->buildIas();
 	optixManager->buildSbt();
@@ -76,6 +56,7 @@ int main() {
 	params.width = width;
 	params.height = height;
 	params.handle = optixManager->getIasHandle();
+	params.frameIndex = 0;
 	params.samplesPerPixel = 3;
 	params.maxDepth = 5;
 
@@ -83,11 +64,17 @@ int main() {
 
 	bool useDenoiser = true;
 	bool accumulate = false;
+
+	uint32_t triangleCount = optixManager->getTriangleCount();
 	
 	while (!displayManager->isCloseRequested()) {
 		Timer::getInstance()->update();
+		if (camera.update()) {
+			params.frameIndex = 0;
+		} else if (accumulate) {
+			params.frameIndex += 1;
+		}
 
-		camera.update();
 		params.camPosition = camera.getPosition();
 		params.projectionMatrix = camera.getProjectionMatrix();
 		params.viewMatrix = camera.getViewMatrix();
@@ -121,7 +108,8 @@ int main() {
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		ImGui::Begin("My name is window, ImGUI window");
+		ImGui::Begin("Settings and Information");
+		ImGui::Text("Triangle count: %d", triangleCount);
 		ImGui::Text("FPS: %f", Timer::getInstance()->getFPS());
 		ImGui::Text("Frame time: %fms", 1000.0f / Timer::getInstance()->getFPS());
 		ImGui::Text("Render time: %fms", renderTime / 1000.0f);
@@ -130,6 +118,7 @@ int main() {
 		ImGui::SliderInt("Max depth", &params.maxDepth, 1, 32);
 		ImGui::Checkbox("Use denoiser", &useDenoiser);
 		ImGui::Checkbox("Accumulate light", &accumulate);
+		ImGui::Text("Frame index: %d", params.frameIndex);
 		ImGui::End();
 		
 		renderer.render(useDenoiser ? denoisedBuffer : imageBuffer);

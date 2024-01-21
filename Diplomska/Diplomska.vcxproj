@@ -173,6 +173,7 @@
     <ClCompile Include="OptixShaderCompiler.cpp" />
     <ClCompile Include="RawModel.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="StaticShader.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="RawModel.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="StaticShader.h" />
     <ClInclude Include="stb_image.h" />
@@ -220,6 +222,7 @@
     <None Include="StormtrooperBox.json" />
     <None Include="StormtrooperFrame.json" />
     <None Include="StormtrooperLights.json" />
+    <None Include="StormtrooperScene.json" />
     <None Include="vertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>

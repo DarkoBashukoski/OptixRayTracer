@@ -58,6 +58,9 @@
     <Filter Include="Resources\Models">
       <UniqueIdentifier>{07a58df6-75d4-4669-9c61-291e29efd658}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Scenes">
+      <UniqueIdentifier>{3258fffa-9ef8-4407-ad95-dfbee1520cde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_widgets.cpp">
@@ -127,6 +130,9 @@
       <Filter>Source Files\OptixRenderer</Filter>
     </ClCompile>
     <ClCompile Include="Denoiser.cpp">
+      <Filter>Source Files\OptixRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
       <Filter>Source Files\OptixRenderer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -212,6 +218,9 @@
     <ClInclude Include="Denoiser.h">
       <Filter>Header Files\OptixRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\OptixRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.glsl">
@@ -252,6 +261,9 @@
     </None>
     <None Include="StormtrooperLights.json">
       <Filter>Resources\Models</Filter>
+    </None>
+    <None Include="StormtrooperScene.json">
+      <Filter>Resources\Scenes</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
