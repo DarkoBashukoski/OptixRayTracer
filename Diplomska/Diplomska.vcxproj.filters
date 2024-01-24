@@ -61,6 +61,21 @@
     <Filter Include="Resources\Scenes">
       <UniqueIdentifier>{3258fffa-9ef8-4407-ad95-dfbee1520cde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Models\Stormtrooper">
+      <UniqueIdentifier>{c32a9b10-ba23-4719-ba52-d941ac62388b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Textures">
+      <UniqueIdentifier>{6dcc0c28-ea95-4591-bd56-8fe20409fbdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Models\Spaceship">
+      <UniqueIdentifier>{89f70d5a-715b-4ed1-8bdb-b267294554e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Models\Coffee">
+      <UniqueIdentifier>{973f40ea-fc0e-4709-ac8b-6cf26502165a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Models\MaterialDemo">
+      <UniqueIdentifier>{3be53fbd-247f-4591-9c22-c829c5f6dba6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_widgets.cpp">
@@ -229,41 +244,488 @@
     <None Include="fragmentShader.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="BasicCube.json">
-      <Filter>Resources\Models</Filter>
+    <None Include="Resources\Models\Stormtrooper\Stormtrooper.json">
+      <Filter>Resources\Models\Stormtrooper</Filter>
     </None>
-    <None Include="GlowingCube.json">
-      <Filter>Resources\Models</Filter>
+    <None Include="Resources\Models\Stormtrooper\StormtrooperBox.json">
+      <Filter>Resources\Models\Stormtrooper</Filter>
     </None>
-    <None Include="CornellBox.json">
-      <Filter>Resources\Models</Filter>
+    <None Include="Resources\Models\Stormtrooper\StormtrooperFrame.json">
+      <Filter>Resources\Models\Stormtrooper</Filter>
     </None>
-    <None Include="King.json">
-      <Filter>Resources\Models</Filter>
+    <None Include="Resources\Models\Stormtrooper\StormtrooperLights.json">
+      <Filter>Resources\Models\Stormtrooper</Filter>
     </None>
-    <None Include="Pawn.json">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="Queen.json">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="Knight.json">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="Stormtrooper.json">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="StormtrooperBox.json">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="StormtrooperFrame.json">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="StormtrooperLights.json">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="StormtrooperScene.json">
+    <None Include="Resources\Scenes\Stormtrooper.json">
       <Filter>Resources\Scenes</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh007.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh008.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh009.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh010.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh011.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh012.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh013.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh014.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh015.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh016.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh017.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh018.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh019.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh020.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh021.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh022.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh023.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh024.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh025.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh026.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh027.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh028.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh029.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh030.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh031.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh032.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh033.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh034.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh035.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh036.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh037.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh038.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh039.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh040.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh041.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh042.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh043.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh044.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh045.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh046.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh047.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh048.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh049.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh050.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh051.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh052.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh053.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh054.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh055.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh056.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh057.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh058.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh059.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh060.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh061.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh062.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh063.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh064.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh065.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh066.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh067.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh068.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh069.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh070.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh071.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh072.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh073.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh074.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh075.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh076.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh077.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh078.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh079.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh080.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh081.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh082.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh083.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh084.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh085.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh086.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh087.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh000.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh001.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh002.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh003.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh004.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh005.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Mesh006.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Scenes\Spaceship.json">
+      <Filter>Resources\Scenes</Filter>
+    </None>
+    <None Include="Resources\Models\Spaceship\Lights.json">
+      <Filter>Resources\Models\Spaceship</Filter>
+    </None>
+    <None Include="Resources\Scenes\Coffee.json">
+      <Filter>Resources\Scenes</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh000.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh001.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh002.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh003.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh004.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh005.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh006.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh007.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh008.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh009.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh010.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh011.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh012.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh013.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh014.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh015.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh016.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh017.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh018.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Mesh019.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\Coffee\Lights.json">
+      <Filter>Resources\Models\Coffee</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball20.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball21.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball22.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball23.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball24.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball25.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball30.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball31.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball32.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball33.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball34.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball35.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball40.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball41.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball42.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball43.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball44.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball45.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball50.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball51.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball52.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball53.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball54.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball55.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball00.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball01.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball02.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball03.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball04.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball05.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball10.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball11.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball12.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball13.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball14.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Ball15.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Scenes\MaterialDemo.json">
+      <Filter>Resources\Scenes</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\Lights.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\CornellBoxFloor.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\CornellBoxLeft.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\CornellBoxRight.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\CornellBoxBack.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\CornellBoxFront.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
+    </None>
+    <None Include="Resources\Models\MaterialDemo\CornellBoxCeiling.json">
+      <Filter>Resources\Models\MaterialDemo</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -276,5 +738,10 @@
     <CudaCompile Include="RayTracing.cu">
       <Filter>Cuda Files</Filter>
     </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\painting1.jpg">
+      <Filter>Resources\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

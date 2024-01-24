@@ -1,0 +1,27 @@
+{
+    "modelData": {
+        "vertexCount": 4,
+        "vertices": "-3.0;6.0;-3.0;3.0;6.0;-3.0;3.0;0.0;-3.0;-3.0;0.0;-3.0",
+        "vertexNormalCount": 1,
+        "vertexNormals": "0.0;0.0;1.0",
+        "triangleCount": 2,
+        "indices": "0;3;2;0;2;1",
+        "vertexNormalIndices": "0;0;0;0;0;0"
+    },
+    "material": {
+        "shaderId": 0,
+        "color": {
+            "red": 0.13,
+            "green": 0.39,
+            "blue": 0.9
+        },
+        "emissionColor": {
+            "red": 0.0,
+            "green": 0.0,
+            "blue": 0.0
+        },
+        "roughness": 1.0,
+        "metallic": 0.0,
+        "emissionPower": 0.0
+    }
+}

@@ -1,13 +1,18 @@
 #include "Scene.h"
 
 Scene::Scene(OptixDeviceContext context, std::string fileName) {
-	ifstream f(fileName);
+	ifstream f("Resources\\Scenes\\" + fileName + ".json");
 	json data = json::parse(f);
+
+	int modelCount = data["scene"].size();
 	entities = vector<Entity>();
+	models = vector<RawModel>();
+	models.reserve(modelCount);
 	
 	for (json modelData : data["scene"]) {
 		string modelName = modelData["modelName"].template get<string>();
-		models.push_back(RawModel(context, modelName + ".json"));
+		modelName = "Resources\\Models\\" + fileName + "\\" + modelName + ".json";
+		models.push_back(RawModel(context, modelName));
 		
 		for (json instanceData : modelData["instances"]) {
 			float3 translation{}, rotation{}, scale{};

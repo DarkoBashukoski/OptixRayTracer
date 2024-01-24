@@ -57,7 +57,13 @@ void OptixManager::buildPipeline(OptixPipelineCompileOptions pipelineCompileOpti
 	hitgroupProgGroupDesc.hitgroup.entryFunctionNameCH = "__closesthit__ch";
 	OPTIX_CHECK(optixProgramGroupCreate(context, &hitgroupProgGroupDesc, 1, &programGroupOptions, outLog, &outLogSize, &hitgroupProgGroup));
 
-	OptixProgramGroup programGroups[] = { raygenProgGroup, missProgGroup, hitgroupProgGroup };
+	OptixProgramGroupDesc hitgroupDielectricProgGroupDesc = {};
+	hitgroupDielectricProgGroupDesc.kind = OPTIX_PROGRAM_GROUP_KIND_HITGROUP;
+	hitgroupDielectricProgGroupDesc.hitgroup.moduleCH = module;
+	hitgroupDielectricProgGroupDesc.hitgroup.entryFunctionNameCH = "__closesthit__dielectric";
+	OPTIX_CHECK(optixProgramGroupCreate(context, &hitgroupDielectricProgGroupDesc, 1, &programGroupOptions, outLog, &outLogSize, &hitgroupDielectricProgGroup));
+
+	OptixProgramGroup programGroups[] = { raygenProgGroup, missProgGroup, hitgroupProgGroup, hitgroupDielectricProgGroup };
 	OptixPipelineLinkOptions pipelineLinkOptions = {};
 	pipelineLinkOptions.maxTraceDepth = maxTraceDepth;
 	OPTIX_CHECK(optixPipelineCreate(context, &pipelineCompileOptions, &pipelineLinkOptions, programGroups, sizeof(programGroups) / sizeof(programGroups[0]), outLog, &outLogSize, &pipeline));
@@ -98,10 +104,10 @@ OptixPipeline OptixManager::getPipeline() {
 	return pipeline;
 }
 
-void OptixManager::addEntity(Entity* entity) {
-	RawModel* model = entity->getModel();
+void OptixManager::addEntity(Entity entity) {
+	RawModel* model = entity.getModel();
 	if (entities.find(model) == entities.end()) {
-		entities.insert({ model, vector<Entity*>() });
+		entities.insert({ model, vector<Entity>() });
 	}
 	entities[model].push_back(entity);
 	totalTriangleCount += model->getTriangleCount();
@@ -109,7 +115,7 @@ void OptixManager::addEntity(Entity* entity) {
 
 void OptixManager::addEntities(vector<Entity> _entities) {
 	for (Entity e : _entities) {
-		addEntity(&e);
+		addEntity(e);
 	}
 }
 
@@ -121,12 +127,12 @@ void OptixManager::buildIas() {
 	std::vector<OptixInstance> instances;
 	int sbtOffset = 0;
 
-	for (const pair<RawModel*, vector<Entity*>> pair : entities) {
+	for (const pair<RawModel*, vector<Entity>> pair : entities) {
 		RawModel* model = pair.first;
-		for (Entity* entity : pair.second) {
+		for (Entity entity : pair.second) {
 			OptixInstance optixInstance = {};
 			optixInstance.flags = OPTIX_INSTANCE_FLAG_NONE;
-			memcpy(optixInstance.transform, entity->getTransformation(), sizeof(float) * 12);
+			memcpy(optixInstance.transform, entity.getTransformation(), sizeof(float) * 12);
 			optixInstance.visibilityMask = 255;
 			optixInstance.sbtOffset = sbtOffset;
 			optixInstance.instanceId = 0;
@@ -193,13 +199,13 @@ void OptixManager::buildSbt() {
 	size_t hitgroupRecordSize = sizeof(HitgroupSbtRecord);
 	vector<HitgroupSbtRecord> hitgroupRecords = vector<HitgroupSbtRecord>();
 
-	for (const pair<RawModel*, vector<Entity*>> pair : entities) {
+	for (const pair<RawModel*, vector<Entity>> pair : entities) {
 		RawModel* model = pair.first;
 		Material material = model->getMaterial();
 
 		HitgroupSbtRecord newRecord = {};
 
-		OPTIX_CHECK(optixSbtRecordPackHeader(hitgroupProgGroup, &newRecord));
+		OPTIX_CHECK(optixSbtRecordPackHeader((material.shaderId == 0) ? hitgroupProgGroup : hitgroupDielectricProgGroup, &newRecord));
 		newRecord.data.color = material.color;
 		newRecord.data.metallic = material.metallic;
 		newRecord.data.roughness = material.roughness;
@@ -227,7 +233,7 @@ void OptixManager::buildSbt() {
 uint32_t OptixManager::getHitgroupRecordCount() {
 	uint32_t total = 0;
 
-	for (const pair<RawModel*, vector<Entity*>> pair : entities) {
+	for (const pair<RawModel*, vector<Entity>> pair : entities) {
 		RawModel* model = pair.first;
 		
 		total += 1;

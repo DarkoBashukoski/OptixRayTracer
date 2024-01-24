@@ -8,6 +8,7 @@ class Material {
 private:
 	
 public:
+	int shaderId;
 	float3 color;
 	float roughness;
 	float metallic;

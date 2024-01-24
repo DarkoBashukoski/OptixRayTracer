@@ -33,7 +33,8 @@ int main() {
 
 	Denoiser denoiser = Denoiser(optixManager->getContext(), stream, width, height);
 
-	Scene scene = Scene(optixManager->getContext(), "StormtrooperScene.json");
+	Scene scene = Scene(optixManager->getContext(), "Spaceship");
+
 	optixManager->addEntities(scene.getEntities());
 
 	optixManager->buildIas();
@@ -43,6 +44,7 @@ int main() {
 	CudaOutputBuffer<float3> normalBuffer(width, height);
 	CudaOutputBuffer<float3> albedoBuffer(width, height);
 	CudaOutputBuffer<float3> denoisedBuffer(width, height);
+	CudaOutputBuffer<float2> flowBuffer(width, height);
 
 	float3 camPos = make_float3(0.0f, 1.0f, 5.0f);
 	float3 camRot = make_float3(0.0f, 0.0f, 0.0f);
@@ -53,6 +55,7 @@ int main() {
 	params.image = imageBuffer.map();
 	params.normals = normalBuffer.map();
 	params.albedo = albedoBuffer.map();
+	params.flow = flowBuffer.map();
 	params.width = width;
 	params.height = height;
 	params.handle = optixManager->getIasHandle();
@@ -63,7 +66,7 @@ int main() {
 	CUdeviceptr d_param;
 
 	bool useDenoiser = true;
-	bool accumulate = false;
+	bool accumulate = true;
 
 	uint32_t triangleCount = optixManager->getTriangleCount();
 	
@@ -92,7 +95,7 @@ int main() {
 
 		uint64_t denoiseStart = Timer::getInstance()->getTime();
 		if (useDenoiser) {
-			denoiser.launch(params.image, denoisedBuffer.map(), params.normals, params.albedo);
+			denoiser.launch(params.image, denoisedBuffer.map(), params.normals, params.albedo, params.flow);
 			CUDA_CHECK(cudaDeviceSynchronize());
 		}
 		uint64_t denoiseTime = Timer::getInstance()->getTime() - denoiseStart;
@@ -101,6 +104,7 @@ int main() {
 		normalBuffer.unmap();
 		albedoBuffer.unmap();
 		denoisedBuffer.unmap();
+		flowBuffer.unmap();
 
 		CUDA_CHECK(cudaFree(reinterpret_cast<void*>(d_param)));
 
@@ -119,9 +123,14 @@ int main() {
 		ImGui::Checkbox("Use denoiser", &useDenoiser);
 		ImGui::Checkbox("Accumulate light", &accumulate);
 		ImGui::Text("Frame index: %d", params.frameIndex);
+		ImGui::Text("Camera position: (%.2f, %.2f, %.2f)", camera.getPosition().x, camera.getPosition().y, camera.getPosition().z);
 		ImGui::End();
 		
 		renderer.render(useDenoiser ? denoisedBuffer : imageBuffer);
+
+		params.previousProjection = params.projectionMatrix;
+		params.previousView = params.viewMatrix;
+
 		displayManager->updateDisplay();
 	}
 	displayManager->closeDisplay();

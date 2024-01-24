@@ -37,12 +37,13 @@ private:
 	size_t outLogSize = 0;
 	const uint32_t maxTraceDepth = 5;
 	OptixTraversableHandle iasHandle;
-	unordered_map<RawModel*, vector<Entity*>> entities;
+	unordered_map<RawModel*, vector<Entity>> entities;
 	unsigned int totalTriangleCount;
 
 	OptixProgramGroup raygenProgGroup = nullptr;
 	OptixProgramGroup missProgGroup = nullptr;
 	OptixProgramGroup hitgroupProgGroup = nullptr;
+	OptixProgramGroup hitgroupDielectricProgGroup = nullptr;
 
 	void buildModule();
 	void buildPipeline(OptixPipelineCompileOptions pipelineCompileOptions);
@@ -54,7 +55,7 @@ public:
 	OptixTraversableHandle getIasHandle();
 	OptixShaderBindingTable getSbt();
 	OptixPipeline getPipeline();
-	void addEntity(Entity* entity);
+	void addEntity(Entity entity);
 	void addEntities(vector<Entity> _entities);
 	void buildIas();
 	void buildSbt();

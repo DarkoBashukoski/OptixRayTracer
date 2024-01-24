@@ -90,6 +90,7 @@ void RawModel::parseModelData(json modelData) {
 void RawModel::parseMaterialData(json materialData){
 	material = Material();
 
+	material.shaderId = materialData["shaderId"];
 	material.color.x = materialData["color"]["red"];
 	material.color.y = materialData["color"]["green"];
 	material.color.z = materialData["color"]["blue"];

@@ -7,7 +7,7 @@ Entity::Entity(RawModel* _rawModel, float3 _position, float3 _rotation, float3 _
 	transMatrix = transMatrix * mat4::createRotationX(toRadians(rotation.x));
 	transMatrix = transMatrix * mat4::createRotationY(toRadians(rotation.y));
 	transMatrix = transMatrix * mat4::createRotationZ(toRadians(rotation.z));
-	transMatrix = transMatrix.scale(scale);
+	transMatrix = transMatrix * mat4::createScale(scale);
 
 	transformtaion[0] = transMatrix.m11;
 	transformtaion[1] = transMatrix.m12;

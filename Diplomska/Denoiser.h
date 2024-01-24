@@ -19,7 +19,7 @@ private:
 	OptixDenoiserParams denoiserParams = {};
 public:
 	Denoiser(OptixDeviceContext context, CUstream _stream, int _width, int _height);
-	void launch(float3* dInputData, float3* dOutputData, float3* dNormalData, float3* dAlbedoData);
+	void launch(float3* dInputData, float3* dOutputData, float3* dNormalData, float3* dAlbedoData, float2* dFlowData);
 };
 
 #endif // !DENOISER_H

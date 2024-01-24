@@ -1,0 +1,950 @@
+{
+	"scene": [
+		{
+			"modelName": "Ball00",
+			"instances": [
+				{
+					"translation": {
+						"x": -2.5,
+						"y": 0.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball01",
+			"instances": [
+				{
+					"translation": {
+						"x": -2.5,
+						"y": 1.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball02",
+			"instances": [
+				{
+					"translation": {
+						"x": -2.5,
+						"y": 2.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball03",
+			"instances": [
+				{
+					"translation": {
+						"x": -2.5,
+						"y": 3.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball04",
+			"instances": [
+				{
+					"translation": {
+						"x": -2.5,
+						"y": 4.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball05",
+			"instances": [
+				{
+					"translation": {
+						"x": -2.5,
+						"y": 5.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball10",
+			"instances": [
+				{
+					"translation": {
+						"x": -1.5,
+						"y": 0.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball11",
+			"instances": [
+				{
+					"translation": {
+						"x": -1.5,
+						"y": 1.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball12",
+			"instances": [
+				{
+					"translation": {
+						"x": -1.5,
+						"y": 2.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball13",
+			"instances": [
+				{
+					"translation": {
+						"x": -1.5,
+						"y": 3.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball14",
+			"instances": [
+				{
+					"translation": {
+						"x": -1.5,
+						"y": 4.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball15",
+			"instances": [
+				{
+					"translation": {
+						"x": -1.5,
+						"y": 5.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball20",
+			"instances": [
+				{
+					"translation": {
+						"x": -0.5,
+						"y": 0.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball21",
+			"instances": [
+				{
+					"translation": {
+						"x": -0.5,
+						"y": 1.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball22",
+			"instances": [
+				{
+					"translation": {
+						"x": -0.5,
+						"y": 2.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball23",
+			"instances": [
+				{
+					"translation": {
+						"x": -0.5,
+						"y": 3.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball24",
+			"instances": [
+				{
+					"translation": {
+						"x": -0.5,
+						"y": 4.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball25",
+			"instances": [
+				{
+					"translation": {
+						"x": -0.5,
+						"y": 5.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball30",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.5,
+						"y": 0.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball31",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.5,
+						"y": 1.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball32",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.5,
+						"y": 2.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball33",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.5,
+						"y": 3.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball34",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.5,
+						"y": 4.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball35",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.5,
+						"y": 5.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball40",
+			"instances": [
+				{
+					"translation": {
+						"x": 1.5,
+						"y": 0.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball41",
+			"instances": [
+				{
+					"translation": {
+						"x": 1.5,
+						"y": 1.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball42",
+			"instances": [
+				{
+					"translation": {
+						"x": 1.5,
+						"y": 2.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball43",
+			"instances": [
+				{
+					"translation": {
+						"x": 1.5,
+						"y": 3.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball44",
+			"instances": [
+				{
+					"translation": {
+						"x": 1.5,
+						"y": 4.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball45",
+			"instances": [
+				{
+					"translation": {
+						"x": 1.5,
+						"y": 5.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball50",
+			"instances": [
+				{
+					"translation": {
+						"x": 2.5,
+						"y": 0.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball51",
+			"instances": [
+				{
+					"translation": {
+						"x": 2.5,
+						"y": 1.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball52",
+			"instances": [
+				{
+					"translation": {
+						"x": 2.5,
+						"y": 2.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball53",
+			"instances": [
+				{
+					"translation": {
+						"x": 2.5,
+						"y": 3.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball54",
+			"instances": [
+				{
+					"translation": {
+						"x": 2.5,
+						"y": 4.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Ball55",
+			"instances": [
+				{
+					"translation": {
+						"x": 2.5,
+						"y": 5.5,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 0.9,
+						"y": 0.9,
+						"z": 0.9
+					}
+				}
+			]
+		},
+		{
+			"modelName": "Lights",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}
+			]
+		},
+		{
+			"modelName": "CornellBoxFloor",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}
+			]
+		},
+		{
+			"modelName": "CornellBoxLeft",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}
+			]
+		},
+		{
+			"modelName": "CornellBoxRight",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}
+			]
+		},
+		{
+			"modelName": "CornellBoxBack",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}
+			]
+		},
+		{
+			"modelName": "CornellBoxCeiling",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}
+			]
+		},
+		{
+			"modelName": "CornellBoxFront",
+			"instances": [
+				{
+					"translation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"rotation": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					},
+					"scale": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}
+			]
+		}
+	]
+}

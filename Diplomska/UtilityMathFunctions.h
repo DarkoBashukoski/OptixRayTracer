@@ -36,6 +36,10 @@ __forceinline__ __device__ __host__ float3 make_float3(const float4& s) {
     return make_float3(s.x, s.y, s.z);
 }
 
+__forceinline__ __device__ __host__ float3 make_float3(const float2& s, float a) {
+    return make_float3(s.x, s.y, a);
+}
+
 __forceinline__ __device__ __host__ float4 make_float4(const float3& a, float b) {
     return make_float4(a.x, a.y, a.z, b);
 }
@@ -54,6 +58,10 @@ __forceinline__ __device__ __host__ float3 operator+(const float3& a, float b) {
 
 __forceinline__ __device__ __host__ float3 operator-(const float3& s) {
 	return make_float3(-s.x, -s.y, -s.z);
+}
+
+__forceinline__ __device__ __host__ float2 operator-(const float2& a, const float2& b) {
+    return make_float2(a.x - b.x, a.y - b.y);
 }
 
 __forceinline__ __device__ __host__ float2 operator-(const float2& a, float b) {
@@ -90,6 +98,10 @@ __forceinline__ __device__ __host__ float2 operator*(float s, const float2& a) {
 
 __forceinline__ __device__ __host__ float3 operator/(const float3& a, float b) {
     return make_float3(a.x / b, a.y / b, a.z / b);
+}
+
+__forceinline__ __device__ __host__ float2 operator/(const float2& a, float b) {
+    return make_float2(a.x / b, a.y / b);
 }
 
 __forceinline__ __device__ __host__ void operator*=(float3& a, const float s) {
@@ -147,6 +159,10 @@ __forceinline__ __device__ __host__ float4 normalize(const float4& s) {
 
 __forceinline__ __device__ __host__ float length(const float3& s) {
 	return sqrtf(dot(s, s));
+}
+
+__forceinline__ __device__ __host__ float lengthSquared(const float3& s) {
+    return dot(s, s);
 }
 
 __forceinline__ __device__ __host__ float maximum(float a, float b) {
@@ -349,24 +365,12 @@ struct mat4 {
         return ret;
     }
 
-    __host__ __device__ __forceinline__ mat4 scale(float3 f) const {
+    __host__ __device__ __forceinline__ static mat4 createScale(float3 scale) {
         mat4 ret;
-
-        ret.m11 = m11 * f.x;
-        ret.m12 = m12 * f.x;
-        ret.m13 = m13 * f.x;
-        ret.m14 = m14 * f.x;
-
-        ret.m21 = m21 * f.y;
-        ret.m22 = m22 * f.y;
-        ret.m23 = m23 * f.y;
-        ret.m24 = m24 * f.y;
-
-        ret.m31 = m31 * f.z;
-        ret.m32 = m32 * f.z;
-        ret.m33 = m33 * f.z;
-        ret.m34 = m34 * f.z;
-
+        ret.m11 = scale.x; ret.m12 = 0; ret.m13 = 0; ret.m14 = 0;
+        ret.m21 = 0; ret.m22 = scale.y; ret.m23 = 0; ret.m24 = 0;
+        ret.m31 = 0; ret.m32 = 0; ret.m33 = scale.z; ret.m34 = 0;
+        ret.m41 = 0; ret.m42 = 0; ret.m43 = 0; ret.m44 = 1;
         return ret;
     }
     

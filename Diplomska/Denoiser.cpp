@@ -17,7 +17,7 @@ Denoiser::Denoiser(OptixDeviceContext context, CUstream _stream, int _width, int
 	CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&denoiserParams.hdrIntensity), sizeof(float)));
 }
 
-void Denoiser::launch(float3* dInputData, float3* dOutputData, float3* dNormalData, float3* dAlbedoData) {
+void Denoiser::launch(float3* dInputData, float3* dOutputData, float3* dNormalData, float3* dAlbedoData, float2* dFlowData) {
 	OptixDenoiserLayer layer = {};
 
 	layer.input.data = reinterpret_cast<CUdeviceptr>(dInputData);
@@ -34,6 +34,13 @@ void Denoiser::launch(float3* dInputData, float3* dOutputData, float3* dNormalDa
 	layer.output.pixelStrideInBytes = sizeof(float3);
 	layer.output.format = OPTIX_PIXEL_FORMAT_FLOAT3;
 
+	layer.previousOutput.data = reinterpret_cast<CUdeviceptr>(dOutputData);
+	layer.previousOutput.width = width;
+	layer.previousOutput.height = height;
+	layer.previousOutput.rowStrideInBytes = width * sizeof(float3);
+	layer.previousOutput.pixelStrideInBytes = sizeof(float3);
+	layer.previousOutput.format = OPTIX_PIXEL_FORMAT_FLOAT3;
+
 	OptixDenoiserGuideLayer guideLayer = {};
 	
 	guideLayer.albedo.data = reinterpret_cast<CUdeviceptr>(dAlbedoData);
@@ -49,6 +56,13 @@ void Denoiser::launch(float3* dInputData, float3* dOutputData, float3* dNormalDa
 	guideLayer.normal.rowStrideInBytes = width * sizeof(float3);
 	guideLayer.normal.pixelStrideInBytes = sizeof(float3);
 	guideLayer.normal.format = OPTIX_PIXEL_FORMAT_FLOAT3;
+	
+	guideLayer.flow.data = reinterpret_cast<CUdeviceptr>(dFlowData);
+	guideLayer.flow.width = width;
+	guideLayer.flow.height = height;
+	guideLayer.flow.rowStrideInBytes = width * sizeof(float2);
+	guideLayer.flow.pixelStrideInBytes = sizeof(float2);
+	guideLayer.flow.format = OPTIX_PIXEL_FORMAT_FLOAT2;
 	
 	OPTIX_CHECK(optixDenoiserComputeIntensity(
 		denoiser,

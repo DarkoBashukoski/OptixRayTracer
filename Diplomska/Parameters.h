@@ -6,6 +6,7 @@ struct Params {
     float3* image;
     float3* normals;
     float3* albedo;
+    float2* flow;
     int frameIndex;
     unsigned int width;
     unsigned int height;
@@ -14,8 +15,10 @@ struct Params {
     float3 camPosition;
     mat4 projectionMatrix;
     mat4 inverseProjection;
+    mat4 previousProjection;
     mat4 viewMatrix;
     mat4 inverseView;
+    mat4 previousView;
     OptixTraversableHandle handle;
 };
 
