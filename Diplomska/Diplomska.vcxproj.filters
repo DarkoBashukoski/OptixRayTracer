@@ -76,6 +76,9 @@
     <Filter Include="Resources\Models\MaterialDemo">
       <UniqueIdentifier>{3be53fbd-247f-4591-9c22-c829c5f6dba6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Models\CornellBox">
+      <UniqueIdentifier>{19a32296-8899-453d-bab7-08542d53347a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_widgets.cpp">
@@ -727,6 +730,30 @@
     <None Include="Resources\Models\MaterialDemo\CornellBoxCeiling.json">
       <Filter>Resources\Models\MaterialDemo</Filter>
     </None>
+    <None Include="Resources\Scenes\CornellBox.json">
+      <Filter>Resources\Scenes</Filter>
+    </None>
+    <None Include="Resources\Models\CornellBox\CornellBoxBack.json">
+      <Filter>Resources\Models\CornellBox</Filter>
+    </None>
+    <None Include="Resources\Models\CornellBox\CornellBoxCeiling.json">
+      <Filter>Resources\Models\CornellBox</Filter>
+    </None>
+    <None Include="Resources\Models\CornellBox\CornellBoxFloor.json">
+      <Filter>Resources\Models\CornellBox</Filter>
+    </None>
+    <None Include="Resources\Models\CornellBox\CornellBoxFront.json">
+      <Filter>Resources\Models\CornellBox</Filter>
+    </None>
+    <None Include="Resources\Models\CornellBox\CornellBoxLeft.json">
+      <Filter>Resources\Models\CornellBox</Filter>
+    </None>
+    <None Include="Resources\Models\CornellBox\CornellBoxRight.json">
+      <Filter>Resources\Models\CornellBox</Filter>
+    </None>
+    <None Include="Resources\Models\CornellBox\Lights.json">
+      <Filter>Resources\Models\CornellBox</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="DrawSolidColor.cu">
@@ -736,6 +763,9 @@
       <Filter>Cuda Files</Filter>
     </CudaCompile>
     <CudaCompile Include="RayTracing.cu">
+      <Filter>Cuda Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="PathTracingNEE.cu">
       <Filter>Cuda Files</Filter>
     </CudaCompile>
   </ItemGroup>

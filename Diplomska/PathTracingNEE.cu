@@ -3,6 +3,10 @@
 #include <curand.h>
 #include <curand_kernel.h>
 
+extern "C" {
+	__constant__ Params params;
+}
+
 struct RayPayload {
 	float3 color;
 	float3 emittedLight;
@@ -11,11 +15,8 @@ struct RayPayload {
 	float done;
 	float prepForDenoiser;
 	unsigned int seed;
+	unsigned int depth;
 };
-
-extern "C" {
-	__constant__ Params params;
-}
 
 static __forceinline__ __device__ void computeRay(uint3 idx, uint3 dim, float3& origin, float3& direction, float2& offset) {
 	origin = params.camPosition;
@@ -52,6 +53,7 @@ static __forceinline__ __device__ void storePayload(RayPayload payload) {
 	optixSetPayload_12(floatAsUint(payload.done));
 	optixSetPayload_13(payload.seed);
 	optixSetPayload_14(payload.prepForDenoiser);
+	optixSetPayload_15(payload.depth);
 }
 
 static __forceinline__ __device__ RayPayload loadPayload() {
@@ -64,12 +66,13 @@ static __forceinline__ __device__ RayPayload loadPayload() {
 	payload.done = uintAsFloat(optixGetPayload_12());
 	payload.seed = optixGetPayload_13();
 	payload.prepForDenoiser = uintAsFloat(optixGetPayload_14());
+	payload.depth = optixGetPayload_15();
 
 	return payload;
 }
 
 static __forceinline__ __device__ void trace(RayPayload& payload) {
-	unsigned int p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14;
+	unsigned int p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15;
 	p0 = floatAsUint(payload.color.x);
 	p1 = floatAsUint(payload.color.y);
 	p2 = floatAsUint(payload.color.z);
@@ -85,8 +88,17 @@ static __forceinline__ __device__ void trace(RayPayload& payload) {
 	p12 = floatAsUint(payload.done);
 	p13 = payload.seed;
 	p14 = floatAsUint(payload.prepForDenoiser);
+	p15 = payload.depth;
 
-	optixTrace(params.handle, payload.origin, payload.direction, 0.0001f, 1e16f, 0.0f, OptixVisibilityMask(255), OPTIX_RAY_FLAG_CULL_BACK_FACING_TRIANGLES, 0, 1, 0, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14);
+	optixTrace(
+		params.handle,
+		payload.origin,
+		payload.direction,
+		0.0001f, 1e16f, 0.0f,
+		OptixVisibilityMask(255),
+		OPTIX_RAY_FLAG_CULL_BACK_FACING_TRIANGLES,
+		0, 1, 0,
+		p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15);
 
 	payload.color = make_float3(uintAsFloat(p0), uintAsFloat(p1), uintAsFloat(p2));
 	payload.emittedLight = make_float3(uintAsFloat(p3), uintAsFloat(p4), uintAsFloat(p5));
@@ -95,6 +107,21 @@ static __forceinline__ __device__ void trace(RayPayload& payload) {
 	payload.done = uintAsFloat(p12);
 	payload.seed = p13;
 	payload.prepForDenoiser = p14;
+	payload.depth = p15;
+}
+
+static __forceinline__ __device__ bool traceOcclusion(float3 origin, float3 direction, float lightDistance) {
+	optixTraverse(
+		params.handle,
+		origin,
+		direction,
+		0.001f, lightDistance - 0.001f, 0.0f,
+		OptixVisibilityMask(1),
+		OPTIX_RAY_FLAG_TERMINATE_ON_FIRST_HIT | OPTIX_RAY_FLAG_DISABLE_ANYHIT,
+		0, 1, 0
+	);
+
+	return optixHitObjectIsHit();
 }
 
 extern "C" __global__ void __raygen__rg() {
@@ -116,6 +143,7 @@ extern "C" __global__ void __raygen__rg() {
 		pixelOffset = make_float2(-0.5f + randomFloat(&payload.seed), -0.5f + randomFloat(&payload.seed));
 
 		for (int j = 0; j < params.maxDepth; j++) {
+			payload.depth = j;
 			trace(payload);
 			payload.prepForDenoiser = 0.0f;
 
@@ -136,7 +164,7 @@ extern "C" __global__ void __raygen__rg() {
 extern "C" __global__ void __closesthit__ch() {
 	RayPayload payload = loadPayload();
 	HitgroupData* hitData = (HitgroupData*)optixGetSbtDataPointer();
-	
+
 	unsigned int primitiveIndex = optixGetPrimitiveIndex();
 	uint3 normalIndexTriplet = hitData->vertexNormalIndices[primitiveIndex];
 
@@ -157,18 +185,55 @@ extern "C" __global__ void __closesthit__ch() {
 	bool isSpecualarBounce = hitData->metallic >= randomFloat(&payload.seed);
 	payload.direction = normalize(lerp(diffuseDirection, specularDirection, (1 - hitData->roughness) * isSpecualarBounce));
 
-	payload.emittedLight += (hitData->emissionColor * hitData->emissionPower) * payload.color;
+	if (params.useNextEventEstimation) {
+		unsigned int lightIndex = randomUnsignedInt(&payload.seed, 0u, params.numberOfLights);
+		ParallelogramLight light = params.lights[lightIndex];
+
+		float z1 = randomFloat(&payload.seed);
+		float z2 = randomFloat(&payload.seed);
+		float3 lightPos = light.corner + light.v1 * z1 + light.v2 * z2;
+
+		float lightDistance = length(lightPos - payload.origin);
+		float3 lightDirection = normalize(lightPos - payload.origin);
+		float nDl = dot(normal, lightDirection);
+		float lnDl = -dot(light.normal, lightDirection);
+
+		float weight = 0.0f;
+		if (nDl > 0.0f && lnDl > 0.0f) {
+			bool occluded = traceOcclusion(payload.origin, lightDirection, lightDistance);
+
+			if (!occluded) {
+				float area = length(cross(light.v1, light.v2));
+				weight = nDl * lnDl * area / (PI * lightDistance * lightDistance);
+			}
+		}
+
+		payload.emittedLight += ((hitData->emissionColor * hitData->emissionPower) * payload.color) * 0.4f;
+		payload.emittedLight += (weight * light.emission * payload.color) * 0.6f;
+	}
+	else {
+		payload.emittedLight += (hitData->emissionColor * hitData->emissionPower) * payload.color;
+	}
+	
+	/*
+	if (payload.depth == 0) {
+		payload.emittedLight += (hitData->emissionColor * hitData->emissionPower) * payload.color;
+	} else {
+		payload.emittedLight += weight * light.emission * payload.color;
+	}
+	*/
+
 	float3 color = lerp(hitData->color, make_float3(1.0f, 1.0f, 1.0f), isSpecualarBounce);
 	payload.color *= color;
-
-	payload.done = hitData->emissionPower > 0.0f ? 1.0f : 0.0f;
+	
+	payload.done = 0.0f;
 
 	if (payload.prepForDenoiser) {
 		const uint3 idx = optixGetLaunchIndex();
 		const uint3 dim = optixGetLaunchDimensions();
 		unsigned int pixelIndex = idx.y * params.width + idx.x;
 		mat4 transformationMatrix = {};
-		optixGetObjectToWorldTransformMatrix((float*) &transformationMatrix);
+		optixGetObjectToWorldTransformMatrix((float*)&transformationMatrix);
 
 		params.normals[pixelIndex] = normal;
 		params.albedo[pixelIndex] = hitData->color;
@@ -183,9 +248,9 @@ extern "C" __global__ void __closesthit__ch() {
 
 static __forceinline__ __device__ float reflectance(float cosTheta, float refractionRatio) {
 	//Schlick's approximation
-	float r0 = (1 - refractionRatio) / (1 + refractionRatio);
+	float r0 = (1.0f - refractionRatio) / (1.0f + refractionRatio);
 	r0 = r0 * r0;
-	return r0 + (1 - r0) * pow((1 - cosTheta), 5);
+	return r0 + (1.0f - r0) * pow((1.0f - cosTheta), 5.0f);
 }
 
 extern "C" __global__ void __closesthit__dielectric() {
@@ -217,7 +282,8 @@ extern "C" __global__ void __closesthit__dielectric() {
 
 	if (cannotReflect || reflectance(cosTheta, refractionRatio) > randomFloat(&payload.seed)) {
 		payload.direction = payload.direction - 2 * dot(payload.direction, normal) * normal; //reflect
-	} else {
+	}
+	else {
 		float3 rOutPerp = refractionRatio * (payload.direction + cosTheta * normal);
 		float3 rOutParallel = -sqrt(fabs(1.0f - lengthSquared(rOutPerp))) * normal;
 		payload.direction = rOutPerp + rOutParallel; // refract

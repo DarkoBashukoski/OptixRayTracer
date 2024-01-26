@@ -94,9 +94,9 @@ void RawModel::parseMaterialData(json materialData){
 	material.color.x = materialData["color"]["red"];
 	material.color.y = materialData["color"]["green"];
 	material.color.z = materialData["color"]["blue"];
-	material.emissionColor.x = materialData["color"]["red"];
-	material.emissionColor.y = materialData["color"]["green"];
-	material.emissionColor.z = materialData["color"]["blue"];
+	material.emissionColor.x = materialData["emissionColor"]["red"];
+	material.emissionColor.y = materialData["emissionColor"]["green"];
+	material.emissionColor.z = materialData["emissionColor"]["blue"];
 	material.roughness = materialData["roughness"];
 	material.metallic = materialData["metallic"];
 	material.emissionPower = materialData["emissionPower"];
@@ -192,4 +192,16 @@ CUdeviceptr RawModel::getDeviceVertexNormalIndices() {
 
 uint32_t RawModel::getTriangleCount() {
 	return triangleCount;
+}
+
+float3* RawModel::getVertices() {
+	return vertices;
+}
+
+float3* RawModel::getNormals() {
+	return vertexNormals;
+}
+
+uint3* RawModel::getIndices() {
+	return indices;
 }

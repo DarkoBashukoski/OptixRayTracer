@@ -33,7 +33,7 @@ int main() {
 
 	Denoiser denoiser = Denoiser(optixManager->getContext(), stream, width, height);
 
-	Scene scene = Scene(optixManager->getContext(), "Spaceship");
+	Scene scene = Scene(optixManager->getContext(), "Stormtrooper");
 
 	optixManager->addEntities(scene.getEntities());
 
@@ -46,8 +46,10 @@ int main() {
 	CudaOutputBuffer<float3> denoisedBuffer(width, height);
 	CudaOutputBuffer<float2> flowBuffer(width, height);
 
-	float3 camPos = make_float3(0.0f, 1.0f, 5.0f);
+	float3 camPos = make_float3(0.0f, 3.0f, 15.0f);
 	float3 camRot = make_float3(0.0f, 0.0f, 0.0f);
+	//float3 camPos = make_float3(1.0f, 0.0f, 14.0f);
+	//float3 camRot = make_float3(0.0f, -10.0f, 0.0f);
 
 	Camera camera = Camera(camPos, camRot, displayManager->getWindow());
 
@@ -60,13 +62,17 @@ int main() {
 	params.height = height;
 	params.handle = optixManager->getIasHandle();
 	params.frameIndex = 0;
-	params.samplesPerPixel = 3;
+	params.samplesPerPixel = 1;
 	params.maxDepth = 5;
+	params.numberOfLights = optixManager->getLightCount();
+	params.useNextEventEstimation = true;
+	CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&params.lights), params.numberOfLights * sizeof(ParallelogramLight)));
+	CUDA_CHECK(cudaMemcpy(reinterpret_cast<void*>(params.lights), optixManager->getLightData(), params.numberOfLights * sizeof(ParallelogramLight), cudaMemcpyHostToDevice));
 
 	CUdeviceptr d_param;
 
-	bool useDenoiser = true;
-	bool accumulate = true;
+	bool useDenoiser = false;
+	bool accumulate = false;
 
 	uint32_t triangleCount = optixManager->getTriangleCount();
 	
@@ -118,10 +124,11 @@ int main() {
 		ImGui::Text("Frame time: %fms", 1000.0f / Timer::getInstance()->getFPS());
 		ImGui::Text("Render time: %fms", renderTime / 1000.0f);
 		ImGui::Text("Denoise time: %fms", denoiseTime / 1000.0f);
-		ImGui::SliderInt("Samples per pixel", &params.samplesPerPixel, 1, 32);
-		ImGui::SliderInt("Max depth", &params.maxDepth, 1, 32);
-		ImGui::Checkbox("Use denoiser", &useDenoiser);
-		ImGui::Checkbox("Accumulate light", &accumulate);
+		if (ImGui::SliderInt("Samples per pixel", &params.samplesPerPixel, 1, 32)) params.frameIndex = 0;
+		if (ImGui::SliderInt("Max depth", &params.maxDepth, 1, 32)) params.frameIndex = 0;
+		if (ImGui::Checkbox("Use next event estimation", &params.useNextEventEstimation)) params.frameIndex = 0;
+		if (ImGui::Checkbox("Use denoiser", &useDenoiser)) params.frameIndex = 0;
+		if (ImGui::Checkbox("Accumulate light", &accumulate)) params.frameIndex = 0;
 		ImGui::Text("Frame index: %d", params.frameIndex);
 		ImGui::Text("Camera position: (%.2f, %.2f, %.2f)", camera.getPosition().x, camera.getPosition().y, camera.getPosition().z);
 		ImGui::End();

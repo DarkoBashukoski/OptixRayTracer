@@ -402,6 +402,11 @@ __host__ __device__ __forceinline__ float randomFloat(unsigned int* state) {
     return result / 4294967295.0f;
 }
 
+__host__ __device__ __forceinline__ unsigned int randomUnsignedInt(unsigned int* state, unsigned int lowerBound, unsigned int upperBound) {
+    unsigned int range = upperBound - lowerBound;
+    return lowerBound + (unsigned int)(randomFloat(state) * range);
+}
+
 __host__ __device__ __forceinline__ float randomFloatNormalDistribution(unsigned int* state) {
     float theta = 2 * PI * randomFloat(state);
     float rho = sqrt(-2 * log(randomFloat(state)));

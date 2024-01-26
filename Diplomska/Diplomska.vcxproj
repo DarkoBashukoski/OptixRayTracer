@@ -232,6 +232,13 @@
     <None Include="Resources\Models\Coffee\Mesh017.json" />
     <None Include="Resources\Models\Coffee\Mesh018.json" />
     <None Include="Resources\Models\Coffee\Mesh019.json" />
+    <None Include="Resources\Models\CornellBox\CornellBoxBack.json" />
+    <None Include="Resources\Models\CornellBox\CornellBoxCeiling.json" />
+    <None Include="Resources\Models\CornellBox\CornellBoxFloor.json" />
+    <None Include="Resources\Models\CornellBox\CornellBoxFront.json" />
+    <None Include="Resources\Models\CornellBox\CornellBoxLeft.json" />
+    <None Include="Resources\Models\CornellBox\CornellBoxRight.json" />
+    <None Include="Resources\Models\CornellBox\Lights.json" />
     <None Include="Resources\Models\MaterialDemo\Ball00.json" />
     <None Include="Resources\Models\MaterialDemo\Ball01.json" />
     <None Include="Resources\Models\MaterialDemo\Ball02.json" />
@@ -369,6 +376,7 @@
     <None Include="Resources\Models\Stormtrooper\StormtrooperFrame.json" />
     <None Include="Resources\Models\Stormtrooper\StormtrooperLights.json" />
     <None Include="Resources\Scenes\Coffee.json" />
+    <None Include="Resources\Scenes\CornellBox.json" />
     <None Include="Resources\Scenes\MaterialDemo.json" />
     <None Include="Resources\Scenes\Spaceship.json" />
     <None Include="Resources\Scenes\Stormtrooper.json" />
@@ -380,6 +388,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CudaCompile>
     <CudaCompile Include="PathTracing.cu">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CudaCompile>
+    <CudaCompile Include="PathTracingNEE.cu">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CudaCompile>

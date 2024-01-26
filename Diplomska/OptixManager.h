@@ -37,8 +37,9 @@ private:
 	size_t outLogSize = 0;
 	const uint32_t maxTraceDepth = 5;
 	OptixTraversableHandle iasHandle;
-	unordered_map<RawModel*, vector<Entity>> entities;
+	unordered_map<RawModel*, vector<Entity>> entities = unordered_map<RawModel*, vector<Entity>>();
 	unsigned int totalTriangleCount;
+	vector<ParallelogramLight> lights = vector<ParallelogramLight>();
 
 	OptixProgramGroup raygenProgGroup = nullptr;
 	OptixProgramGroup missProgGroup = nullptr;
@@ -57,9 +58,12 @@ public:
 	OptixPipeline getPipeline();
 	void addEntity(Entity entity);
 	void addEntities(vector<Entity> _entities);
+	void parseLights(Entity entity);
 	void buildIas();
 	void buildSbt();
 	unsigned int getTriangleCount();
+	unsigned int getLightCount();
+	ParallelogramLight* getLightData();
 };
 
 #endif // !OPTIXMANAGER_H

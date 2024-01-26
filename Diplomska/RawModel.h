@@ -44,6 +44,9 @@ public:
 	CUdeviceptr getDeviceVertexNormals();
 	CUdeviceptr getDeviceVertexNormalIndices();
 	uint32_t getTriangleCount();
+	float3* getVertices();
+	float3* getNormals();
+	uint3* getIndices();
 };
 
 #endif // !RAWMODEL_H

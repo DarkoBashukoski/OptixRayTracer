@@ -24,13 +24,13 @@ void OptixManager::buildModule() {
 
 	pipelineCompileOptions.usesMotionBlur = false;
 	pipelineCompileOptions.traversableGraphFlags = OPTIX_TRAVERSABLE_GRAPH_FLAG_ALLOW_SINGLE_LEVEL_INSTANCING;
-	pipelineCompileOptions.numPayloadValues = 15;
+	pipelineCompileOptions.numPayloadValues = 16;
 	pipelineCompileOptions.numAttributeValues = 3;
 	pipelineCompileOptions.exceptionFlags = OPTIX_EXCEPTION_FLAG_NONE;
 	pipelineCompileOptions.pipelineLaunchParamsVariableName = "params";
 
 	size_t compiledCodeSize;
-	char* compiledCode = OptixShaderCompiler::compileShader("RayTracing.cu", &compiledCodeSize);
+	char* compiledCode = OptixShaderCompiler::compileShader("PathTracingNEE.cu", &compiledCodeSize);
 
 	OPTIX_CHECK(optixModuleCreate(context, &moduleCompileOptions, &pipelineCompileOptions, compiledCode, compiledCodeSize, outLog, &outLogSize, &module));
 	buildPipeline(pipelineCompileOptions);
@@ -111,6 +111,10 @@ void OptixManager::addEntity(Entity entity) {
 	}
 	entities[model].push_back(entity);
 	totalTriangleCount += model->getTriangleCount();
+
+	if (model->getMaterial().emissionPower > 0.0f) {
+		parseLights(entity);
+	}
 }
 
 void OptixManager::addEntities(vector<Entity> _entities) {
@@ -121,6 +125,36 @@ void OptixManager::addEntities(vector<Entity> _entities) {
 
 unsigned int OptixManager::getTriangleCount() {
 	return totalTriangleCount;
+}
+
+unsigned int OptixManager::getLightCount() {
+	return lights.size();
+}
+
+ParallelogramLight* OptixManager::getLightData() {
+	return lights.data();
+}
+
+void OptixManager::parseLights(Entity entity) {
+	RawModel* model = entity.getModel();
+
+	float3* vertices = model->getVertices();
+	float3* vertexNormals = model->getNormals();
+	uint3* indices = model->getIndices();
+
+	int numOfLights = model->getTriangleCount() / 2;
+	for (int i = 0; i < numOfLights; i++) {
+		ParallelogramLight light = {};
+
+		uint3 lightIndex = indices[2 * i];
+		light.corner = vertices[lightIndex.x];
+		light.v1 = vertices[lightIndex.y] - light.corner;
+		light.v2 = vertices[lightIndex.z] - light.corner;
+		light.normal = vertexNormals[0];
+		light.emission = model->getMaterial().emissionColor * model->getMaterial().emissionPower;
+
+		lights.push_back(light);
+	}
 }
 
 void OptixManager::buildIas() {

@@ -2,6 +2,13 @@
 #include "optix/optix.h"
 #include "UtilityMathFunctions.h"
 
+struct ParallelogramLight {
+    float3 corner;
+    float3 v1, v2;
+    float3 normal;
+    float3 emission;
+};
+
 struct Params {
     float3* image;
     float3* normals;
@@ -20,6 +27,9 @@ struct Params {
     mat4 inverseView;
     mat4 previousView;
     OptixTraversableHandle handle;
+    unsigned int numberOfLights;
+    ParallelogramLight* lights;
+    bool useNextEventEstimation;
 };
 
 struct RaygenData { };
